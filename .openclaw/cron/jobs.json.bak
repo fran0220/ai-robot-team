@@ -41,7 +41,7 @@
       "enabled": true,
       "deleteAfterRun": false,
       "createdAtMs": 1770105895301,
-      "updatedAtMs": 1770245280002,
+      "updatedAtMs": 1770246180001,
       "schedule": {
         "kind": "cron",
         "expr": "3,18,33,48 * * * *"
@@ -61,11 +61,10 @@
         "postToMainMaxChars": 8000
       },
       "state": {
-        "nextRunAtMs": 1770246180000,
-        "lastRunAtMs": 1770245280002,
-        "lastStatus": "error",
-        "lastDurationMs": 242,
-        "lastError": "Error: All models failed (2): proxy-openai/gpt-5.2-codex: No API key found for provider \"proxy-openai\". Auth store: /Users/fan/ai-robot-team/.openclaw/agents/main/agent/auth-profiles.json (agentDir: /Users/fan/ai-robot-team/.openclaw/agents/main/agent). Configure auth for this agent (openclaw agents add <id>) or copy auth-profiles.json from the main agentDir. (auth) | anthropic/claude-opus-4-5: No API key found for provider \"anthropic\". Auth store: /Users/fan/ai-robot-team/.openclaw/agents/main/agent/auth-profiles.json (agentDir: /Users/fan/ai-robot-team/.openclaw/agents/main/agent). Configure auth for this agent (openclaw agents add <id>) or copy auth-profiles.json from the main agentDir. (auth)"
+        "nextRunAtMs": 1770247080000,
+        "lastRunAtMs": 1770246180001,
+        "lastStatus": "ok",
+        "lastDurationMs": 791
       }
     },
     {
