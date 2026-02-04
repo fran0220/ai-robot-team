@@ -144,7 +144,6 @@
       },
       "workspace": "./workspace",
       "maxConcurrent": 4,
-      "thinkingDefault": "high",
       "subagents": {
         "maxConcurrent": 8
       }
@@ -175,6 +174,7 @@
       {
         "id": "atlas",
         "workspace": "./agents/atlas/workspace",
+        "thinkingDefault": "high",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -230,6 +230,7 @@
       {
         "id": "mech",
         "workspace": "./agents/mech/workspace",
+        "thinkingDefault": "high",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
