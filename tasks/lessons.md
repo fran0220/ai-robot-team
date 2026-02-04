@@ -101,6 +101,47 @@
   3. 使用 `--post-mode summary` 将结果汇报到 main session
 - **状态**: ✅ 已验证
 
+### 2026-02-05 OpenClaw 多模型提供商分离配置
+- **错误**: 把所有模型（Claude、GPT、Gemini）都放在同一个 provider 下，使用 `api: "openai-responses"`
+- **原因**: 懒得分开配置，以为中转 API 统一转换就够了
+- **问题**: 这样会限制 Claude 的原生能力，无法使用 Anthropic 特有功能（如 extended thinking、artifacts）
+- **正确配置**:
+  ```json
+  {
+    "models": {
+      "mode": "merge",
+      "providers": {
+        "claude-proxy": {
+          "baseUrl": "${PROXY_BASE_URL}/v1",
+          "apiKey": "${PROXY_API_KEY}",
+          "api": "anthropic-messages",
+          "models": [...]
+        },
+        "gpt-proxy": {
+          "baseUrl": "${PROXY_BASE_URL}/v1",
+          "apiKey": "${PROXY_API_KEY}",
+          "api": "openai-responses",
+          "models": [...]
+        },
+        "gemini-proxy": {
+          "baseUrl": "${PROXY_BASE_URL}/v1",
+          "apiKey": "${PROXY_API_KEY}",
+          "api": "openai-completions",
+          "models": [...]
+        }
+      }
+    }
+  }
+  ```
+- **规则**:
+  1. **不同厂商的模型必须分开配置 provider**，使用各自原生 API 格式
+  2. Claude → `api: "anthropic-messages"`
+  3. GPT → `api: "openai-responses"` (Responses API) 或 `"openai-completions"` (Chat API)
+  4. Gemini → `api: "openai-completions"` (通过 OpenAI 兼容层)
+  5. **敏感信息用环境变量**: `"apiKey": "${PROXY_API_KEY}"` 而不是硬编码
+  6. 配置文件可以存入 Git，但 `.env` 不能
+- **状态**: ✅ 已验证
+
 ---
 
 ## 待复习规则

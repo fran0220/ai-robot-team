@@ -17,8 +17,7 @@ out/
 .env.*
 !.env.example
 
-# OpenClaw config (contains API keys)
-openclaw.json
+# OpenClaw config backups
 openclaw.json.bak*
 
 # OS files

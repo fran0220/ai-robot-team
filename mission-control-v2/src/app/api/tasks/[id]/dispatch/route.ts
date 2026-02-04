@@ -1,0 +1,208 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { v4 as uuidv4 } from 'uuid';
+import { queryOne, run } from '@/lib/db';
+import { getOpenClawClient } from '@/lib/openclaw/client';
+import { broadcast } from '@/lib/events';
+import { getProjectsPath, getMissionControlUrl } from '@/lib/config';
+import type { Task, Agent, OpenClawSession } from '@/lib/types';
+
+interface RouteParams {
+  params: Promise<{ id: string }>;
+}
+
+/**
+ * POST /api/tasks/[id]/dispatch
+ * 
+ * Dispatches a task to its assigned agent's OpenClaw session.
+ * Creates session if needed, sends task details to agent.
+ */
+export async function POST(request: NextRequest, { params }: RouteParams) {
+  try {
+    const { id } = await params;
+
+    // Get task with agent info
+    const task = await queryOne<Task & { assigned_agent_name?: string }>(
+      `SELECT t.*, a.name as assigned_agent_name, a.is_master
+       FROM tasks t
+       LEFT JOIN agents a ON t.assigned_agent_id = a.id
+       WHERE t.id = $1`,
+      [id]
+    );
+
+    if (!task) {
+      return NextResponse.json({ error: 'Task not found' }, { status: 404 });
+    }
+
+    if (!task.assigned_agent_id) {
+      return NextResponse.json(
+        { error: 'Task has no assigned agent' },
+        { status: 400 }
+      );
+    }
+
+    // Get agent details
+    const agent = await queryOne<Agent>(
+      'SELECT * FROM agents WHERE id = $1',
+      [task.assigned_agent_id]
+    );
+
+    if (!agent) {
+      return NextResponse.json({ error: 'Assigned agent not found' }, { status: 404 });
+    }
+
+    // Connect to OpenClaw Gateway
+    const client = getOpenClawClient();
+    if (!client.isConnected()) {
+      try {
+        await client.connect();
+      } catch (err) {
+        console.error('Failed to connect to OpenClaw Gateway:', err);
+        return NextResponse.json(
+          { error: 'Failed to connect to OpenClaw Gateway' },
+          { status: 503 }
+        );
+      }
+    }
+
+    // Get or create OpenClaw session for this agent
+    let session = await queryOne<OpenClawSession>(
+      'SELECT * FROM openclaw_sessions WHERE agent_id = $1 AND status = $2',
+      [agent.id, 'active']
+    );
+
+    const now = new Date().toISOString();
+
+    if (!session) {
+      // Create session record
+      const sessionId = uuidv4();
+      const openclawSessionId = `mission-control-${agent.name.toLowerCase().replace(/\s+/g, '-')}`;
+      
+      await run(
+        `INSERT INTO openclaw_sessions (id, agent_id, openclaw_session_id, channel, status, created_at, updated_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [sessionId, agent.id, openclawSessionId, 'mission-control', 'active', now, now]
+      );
+
+      session = await queryOne<OpenClawSession>(
+        'SELECT * FROM openclaw_sessions WHERE id = $1',
+        [sessionId]
+      );
+
+      // Log session creation
+      await run(
+        `INSERT INTO events (id, type, agent_id, message, created_at)
+         VALUES ($1, $2, $3, $4, $5)`,
+        [uuidv4(), 'agent_status_changed', agent.id, `${agent.name} session created`, now]
+      );
+    }
+
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Failed to create agent session' },
+        { status: 500 }
+      );
+    }
+
+    // Build task message for agent
+    const priorityEmoji = {
+      low: '🔵',
+      normal: '⚪',
+      high: '🟡',
+      urgent: '🔴'
+    }[task.priority] || '⚪';
+
+    // Get project path for deliverables
+    const projectsPath = getProjectsPath();
+    const projectDir = task.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const taskProjectDir = `${projectsPath}/${projectDir}`;
+    const missionControlUrl = getMissionControlUrl();
+
+    const taskMessage = `${priorityEmoji} **NEW TASK ASSIGNED**
+
+**Title:** ${task.title}
+${task.description ? `**Description:** ${task.description}\n` : ''}
+**Priority:** ${task.priority.toUpperCase()}
+${task.due_date ? `**Due:** ${task.due_date}\n` : ''}
+**Task ID:** ${task.id}
+
+**OUTPUT DIRECTORY:** ${taskProjectDir}
+Create this directory and save all deliverables there.
+
+**IMPORTANT:** After completing work, you MUST call these APIs:
+1. Log activity: POST ${missionControlUrl}/api/tasks/${task.id}/activities
+   Body: {"activity_type": "completed", "message": "Description of what was done"}
+2. Register deliverable: POST ${missionControlUrl}/api/tasks/${task.id}/deliverables
+   Body: {"deliverable_type": "file", "title": "File name", "path": "${taskProjectDir}/filename.html"}
+3. Update status: PATCH ${missionControlUrl}/api/tasks/${task.id}
+   Body: {"status": "review"}
+
+When complete, reply with:
+\`TASK_COMPLETE: [brief summary of what you did]\`
+
+If you need help or clarification, ask me (Charlie).`;
+
+    // Send message to agent's session using sessions_send
+    try {
+      // Use the label from openclaw_session_id for routing
+      await client.call('sessions.send', {
+        label: session.openclaw_session_id,
+        message: taskMessage
+      });
+
+      // Update task status to in_progress
+      await run(
+        'UPDATE tasks SET status = $1, updated_at = $2 WHERE id = $3',
+        ['in_progress', now, id]
+      );
+
+      // Broadcast task update
+      const updatedTask = await queryOne<Task>('SELECT * FROM tasks WHERE id = $1', [id]);
+      if (updatedTask) {
+        broadcast({
+          type: 'task_updated',
+          payload: updatedTask,
+        });
+      }
+
+      // Update agent status to working
+      await run(
+        'UPDATE agents SET status = $1, updated_at = $2 WHERE id = $3',
+        ['working', now, agent.id]
+      );
+
+      // Log dispatch event
+      await run(
+        `INSERT INTO events (id, type, agent_id, task_id, message, created_at)
+         VALUES ($1, $2, $3, $4, $5, $6)`,
+        [
+          uuidv4(),
+          'task_dispatched',
+          agent.id,
+          task.id,
+          `Task "${task.title}" dispatched to ${agent.name}`,
+          now
+        ]
+      );
+
+      return NextResponse.json({
+        success: true,
+        task_id: task.id,
+        agent_id: agent.id,
+        session_id: session.openclaw_session_id,
+        message: 'Task dispatched to agent'
+      });
+    } catch (err) {
+      console.error('Failed to send message to agent:', err);
+      return NextResponse.json(
+        { error: `Failed to send task to agent: ${err instanceof Error ? err.message : 'Unknown error'}` },
+        { status: 500 }
+      );
+    }
+  } catch (error) {
+    console.error('Failed to dispatch task:', error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Failed to dispatch task' },
+      { status: 500 }
+    );
+  }
+}

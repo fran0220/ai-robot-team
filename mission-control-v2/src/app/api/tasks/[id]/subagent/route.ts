@@ -1,0 +1,129 @@
+/**
+ * Subagent Registration API
+ * Register OpenClaw sub-agent sessions for tasks
+ */
+
+import { NextRequest, NextResponse } from 'next/server';
+import { queryOne, queryAll, run } from '@/lib/db';
+import { broadcast } from '@/lib/events';
+import type { Agent, OpenClawSession } from '@/lib/types';
+
+/**
+ * POST /api/tasks/[id]/subagent
+ * Register a sub-agent session for a task
+ */
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id: taskId } = await params;
+    const body = await request.json();
+    
+    const { openclaw_session_id, agent_name } = body;
+
+    if (!openclaw_session_id) {
+      return NextResponse.json(
+        { error: 'openclaw_session_id is required' },
+        { status: 400 }
+      );
+    }
+
+    const sessionId = crypto.randomUUID();
+
+    // Create a placeholder agent if agent_name is provided
+    // Otherwise, we'll need to link to an existing agent
+    let agentId = null;
+    
+    if (agent_name) {
+      // Check if agent already exists
+      const existingAgent = await queryOne<{ id: string }>('SELECT id FROM agents WHERE name = $1', [agent_name]);
+      
+      if (existingAgent) {
+        agentId = existingAgent.id;
+      } else {
+        // Create temporary sub-agent record
+        agentId = crypto.randomUUID();
+        await run(`
+          INSERT INTO agents (id, name, role, description, status)
+          VALUES ($1, $2, $3, $4, $5)
+        `, [
+          agentId,
+          agent_name,
+          'Sub-Agent',
+          'Automatically created sub-agent',
+          'working'
+        ]);
+      }
+    }
+
+    // Insert OpenClaw session record
+    await run(`
+      INSERT INTO openclaw_sessions 
+        (id, agent_id, openclaw_session_id, session_type, task_id, status)
+      VALUES ($1, $2, $3, $4, $5, $6)
+    `, [
+      sessionId,
+      agentId,
+      openclaw_session_id,
+      'subagent',
+      taskId,
+      'active'
+    ]);
+
+    // Get the created session
+    const session = await queryOne<OpenClawSession>(`
+      SELECT * FROM openclaw_sessions WHERE id = $1
+    `, [sessionId]);
+
+    // Broadcast agent spawned event
+    broadcast({
+      type: 'agent_spawned',
+      payload: {
+        taskId,
+        sessionId: openclaw_session_id,
+        agentName: agent_name,
+      },
+    });
+
+    return NextResponse.json(session, { status: 201 });
+  } catch (error) {
+    console.error('Error registering sub-agent:', error);
+    return NextResponse.json(
+      { error: 'Failed to register sub-agent' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * GET /api/tasks/[id]/subagent
+ * Get all sub-agent sessions for a task
+ */
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id: taskId } = await params;
+
+    const sessions = await queryAll<OpenClawSession & { agent_name?: string; agent_avatar_emoji?: string }>(`
+      SELECT 
+        s.*,
+        a.name as agent_name,
+        a.avatar_emoji as agent_avatar_emoji
+      FROM openclaw_sessions s
+      LEFT JOIN agents a ON s.agent_id = a.id
+      WHERE s.task_id = $1 AND s.session_type = 'subagent'
+      ORDER BY s.created_at DESC
+    `, [taskId]);
+
+    return NextResponse.json(sessions);
+  } catch (error) {
+    console.error('Error fetching sub-agents:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch sub-agents' },
+      { status: 500 }
+    );
+  }
+}

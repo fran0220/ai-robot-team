@@ -9,6 +9,13 @@ If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out w
 ## Every Session
 
 Before doing anything else:
+
+**团队记忆（优先读取）:**
+1. Read `/Users/fan/ai-robot-team/workspace/TEAM-MEMORY.md` — 团队共享记忆
+2. Read `/Users/fan/ai-robot-team/workspace/GLOSSARY.md` — 术语表
+3. Read `/Users/fan/ai-robot-team/workspace/LESSONS.md` — 踩坑记录
+
+**个人记忆:**
 1. Read `SOUL.md` — this is who you are
 2. Read `USER.md` — this is who you're helping
 3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context

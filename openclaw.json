@@ -1,0 +1,296 @@
+{
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "claude-proxy": {
+        "baseUrl": "${PROXY_BASE_URL}/v1",
+        "apiKey": "${PROXY_API_KEY}",
+        "api": "anthropic-messages",
+        "models": [
+          {
+            "id": "claude-opus-4-5-20251101",
+            "name": "Claude Opus 4.5",
+            "reasoning": true,
+            "input": ["text", "image"],
+            "contextWindow": 200000,
+            "maxTokens": 16384,
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          },
+          {
+            "id": "claude-sonnet-4-5-20250929",
+            "name": "Claude Sonnet 4.5",
+            "reasoning": false,
+            "input": ["text", "image"],
+            "contextWindow": 200000,
+            "maxTokens": 8192,
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          },
+          {
+            "id": "claude-sonnet-4-20250514",
+            "name": "Claude Sonnet 4",
+            "reasoning": false,
+            "input": ["text", "image"],
+            "contextWindow": 200000,
+            "maxTokens": 8192,
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          },
+          {
+            "id": "claude-haiku-4-5-20251001",
+            "name": "Claude Haiku 4.5",
+            "reasoning": false,
+            "input": ["text", "image"],
+            "contextWindow": 200000,
+            "maxTokens": 8192,
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          }
+        ]
+      },
+      "gpt-proxy": {
+        "baseUrl": "${PROXY_BASE_URL}/v1",
+        "apiKey": "${PROXY_API_KEY}",
+        "api": "openai-responses",
+        "models": [
+          {
+            "id": "gpt-5.2-codex",
+            "name": "GPT 5.2 Codex",
+            "reasoning": true,
+            "input": ["text"],
+            "contextWindow": 200000,
+            "maxTokens": 16384,
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          },
+          {
+            "id": "gpt-5.2",
+            "name": "GPT 5.2",
+            "reasoning": true,
+            "input": ["text"],
+            "contextWindow": 200000,
+            "maxTokens": 16384,
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          },
+          {
+            "id": "gpt-5.1-codex",
+            "name": "GPT 5.1 Codex",
+            "reasoning": true,
+            "input": ["text"],
+            "contextWindow": 200000,
+            "maxTokens": 16384,
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          },
+          {
+            "id": "gpt-5",
+            "name": "GPT 5",
+            "reasoning": false,
+            "input": ["text"],
+            "contextWindow": 128000,
+            "maxTokens": 8192,
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          }
+        ]
+      },
+      "gemini-proxy": {
+        "baseUrl": "${PROXY_BASE_URL}/v1",
+        "apiKey": "${PROXY_API_KEY}",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "gemini-3-flash",
+            "name": "Gemini 3 Flash",
+            "reasoning": false,
+            "input": ["text", "image"],
+            "contextWindow": 1000000,
+            "maxTokens": 8192,
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          },
+          {
+            "id": "gemini-3-pro-preview",
+            "name": "Gemini 3 Pro",
+            "reasoning": true,
+            "input": ["text", "image"],
+            "contextWindow": 1000000,
+            "maxTokens": 16384,
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          },
+          {
+            "id": "gemini-2.5-pro",
+            "name": "Gemini 2.5 Pro",
+            "reasoning": true,
+            "input": ["text", "image"],
+            "contextWindow": 1000000,
+            "maxTokens": 16384,
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          },
+          {
+            "id": "gemini-2.5-flash",
+            "name": "Gemini 2.5 Flash",
+            "reasoning": false,
+            "input": ["text", "image"],
+            "contextWindow": 1000000,
+            "maxTokens": 8192,
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "claude-proxy/claude-opus-4-5-20251101",
+        "fallbacks": [
+          "gpt-proxy/gpt-5.2-codex",
+          "gemini-proxy/gemini-3-flash"
+        ]
+      },
+      "workspace": "./workspace",
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      }
+    },
+    "list": [
+      {
+        "id": "nova",
+        "workspace": "./agents/nova/workspace",
+        "model": {
+          "primary": "claude-proxy/claude-opus-4-5-20251101",
+          "fallbacks": [
+            "gpt-proxy/gpt-5.2-codex",
+            "gemini-proxy/gemini-3-flash"
+          ]
+        }
+      },
+      {
+        "id": "sage",
+        "workspace": "./agents/sage/workspace",
+        "model": {
+          "primary": "claude-proxy/claude-sonnet-4-5-20250929",
+          "fallbacks": [
+            "gpt-proxy/gpt-5.2",
+            "gemini-proxy/gemini-2.5-pro"
+          ]
+        }
+      },
+      {
+        "id": "atlas",
+        "workspace": "./agents/atlas/workspace",
+        "model": {
+          "primary": "gpt-proxy/gpt-5.2-codex",
+          "fallbacks": [
+            "claude-proxy/claude-sonnet-4-20250514",
+            "gemini-proxy/gemini-3-flash"
+          ]
+        }
+      },
+      {
+        "id": "jarvis",
+        "workspace": "./agents/jarvis/workspace",
+        "model": {
+          "primary": "claude-proxy/claude-opus-4-5-20251101",
+          "fallbacks": [
+            "gpt-proxy/gpt-5.2-codex",
+            "gemini-proxy/gemini-3-pro-preview"
+          ]
+        }
+      },
+      {
+        "id": "friday",
+        "workspace": "./agents/friday/workspace",
+        "model": {
+          "primary": "claude-proxy/claude-sonnet-4-5-20250929",
+          "fallbacks": [
+            "gpt-proxy/gpt-5.1-codex",
+            "gemini-proxy/gemini-2.5-flash"
+          ]
+        }
+      },
+      {
+        "id": "vision",
+        "workspace": "./agents/vision/workspace",
+        "model": {
+          "primary": "gemini-proxy/gemini-3-pro-preview",
+          "fallbacks": [
+            "claude-proxy/claude-opus-4-5-20251101",
+            "gpt-proxy/gpt-5.2"
+          ]
+        }
+      },
+      {
+        "id": "idra",
+        "workspace": "./agents/idra/workspace",
+        "model": {
+          "primary": "claude-proxy/claude-sonnet-4-20250514",
+          "fallbacks": [
+            "gpt-proxy/gpt-5",
+            "gemini-proxy/gemini-2.5-flash"
+          ]
+        }
+      },
+      {
+        "id": "mech",
+        "workspace": "./agents/mech/workspace",
+        "model": {
+          "primary": "gpt-proxy/gpt-5.2-codex",
+          "fallbacks": [
+            "claude-proxy/claude-haiku-4-5-20251001",
+            "gemini-proxy/gemini-3-flash"
+          ]
+        }
+      },
+      {
+        "id": "xiaomao",
+        "workspace": "./agents/xiaomao/workspace",
+        "model": {
+          "primary": "claude-proxy/claude-haiku-4-5-20251001",
+          "fallbacks": [
+            "gpt-proxy/gpt-5",
+            "gemini-proxy/gemini-2.5-flash"
+          ]
+        }
+      }
+    ]
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto"
+  },
+  "channels": {
+    "telegram": {
+      "enabled": false,
+      "dmPolicy": "allowlist",
+      "allowFrom": ["7199492253"],
+      "groupPolicy": "allowlist",
+      "streamMode": "partial"
+    }
+  },
+  "gateway": {
+    "mode": "local"
+  },
+  "skills": {
+    "entries": {
+      "mission-control": { "enabled": true },
+      "web-research": { "enabled": true },
+      "id-design": { "enabled": true },
+      "frontend-design": { "enabled": true },
+      "openclaw": { "enabled": true }
+    }
+  },
+  "messages": {
+    "ackReactionScope": "group-mentions"
+  },
+  "plugins": {
+    "entries": {
+      "telegram": { "enabled": true }
+    }
+  },
+  "wizard": {
+    "lastRunAt": "2026-02-04T20:01:38.755Z",
+    "lastRunVersion": "2026.2.2-3",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local"
+  },
+  "meta": {
+    "lastTouchedVersion": "2026.2.2-3",
+    "lastTouchedAt": "2026-02-04T20:01:38.755Z"
+  }
+}

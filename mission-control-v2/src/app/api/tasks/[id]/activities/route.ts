@@ -1,0 +1,179 @@
+/**
+ * Task Activities API
+ * Endpoints for logging and retrieving task activities
+ */
+
+import { NextRequest, NextResponse } from 'next/server';
+import { queryAll, queryOne, run } from '@/lib/db';
+import { broadcast } from '@/lib/events';
+import type { TaskActivity, ActivityType } from '@/lib/types';
+
+/**
+ * GET /api/tasks/[id]/activities
+ * Retrieve all activities for a task
+ */
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id: taskId } = await params;
+
+    // Get activities with agent info
+    const activities = await queryAll<{
+      id: string;
+      task_id: string;
+      agent_id: string | null;
+      activity_type: string;
+      message: string;
+      metadata: string | null;
+      created_at: string;
+      agent_name: string | null;
+      agent_avatar_emoji: string | null;
+    }>(`
+      SELECT 
+        a.*,
+        ag.id as agent_id,
+        ag.name as agent_name,
+        ag.avatar_emoji as agent_avatar_emoji
+      FROM task_activities a
+      LEFT JOIN agents ag ON a.agent_id = ag.id
+      WHERE a.task_id = $1
+      ORDER BY a.created_at DESC
+    `, [taskId]);
+
+    // Transform to include agent object
+    const result: TaskActivity[] = activities.map(row => ({
+      id: row.id,
+      task_id: row.task_id,
+      agent_id: row.agent_id || undefined,
+      activity_type: row.activity_type as ActivityType,
+      message: row.message,
+      metadata: row.metadata || undefined,
+      created_at: row.created_at,
+      agent: row.agent_id ? {
+        id: row.agent_id,
+        name: row.agent_name || '',
+        avatar_emoji: row.agent_avatar_emoji || '',
+        role: '',
+        status: 'working' as const,
+        is_master: false,
+        workspace_id: 'default',
+        description: '',
+        created_at: '',
+        updated_at: '',
+      } : undefined,
+    }));
+
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error('Error fetching activities:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch activities' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * POST /api/tasks/[id]/activities
+ * Log a new activity for a task
+ */
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id: taskId } = await params;
+    const body = await request.json();
+    
+    const { activity_type, message, agent_id, metadata } = body;
+
+    if (!activity_type || !message) {
+      return NextResponse.json(
+        { error: 'activity_type and message are required' },
+        { status: 400 }
+      );
+    }
+
+    const id = crypto.randomUUID();
+
+    // Insert activity
+    await run(`
+      INSERT INTO task_activities (id, task_id, agent_id, activity_type, message, metadata)
+      VALUES ($1, $2, $3, $4, $5, $6)
+    `, [
+      id,
+      taskId,
+      agent_id || null,
+      activity_type,
+      message,
+      metadata ? JSON.stringify(metadata) : null
+    ]);
+
+    // Get the created activity with agent info
+    const activity = await queryOne<{
+      id: string;
+      task_id: string;
+      agent_id: string | null;
+      activity_type: string;
+      message: string;
+      metadata: string | null;
+      created_at: string;
+      agent_name: string | null;
+      agent_avatar_emoji: string | null;
+    }>(`
+      SELECT 
+        a.*,
+        ag.id as agent_id,
+        ag.name as agent_name,
+        ag.avatar_emoji as agent_avatar_emoji
+      FROM task_activities a
+      LEFT JOIN agents ag ON a.agent_id = ag.id
+      WHERE a.id = $1
+    `, [id]);
+
+    if (!activity) {
+      return NextResponse.json(
+        { error: 'Failed to create activity' },
+        { status: 500 }
+      );
+    }
+
+    const result: TaskActivity = {
+      id: activity.id,
+      task_id: activity.task_id,
+      agent_id: activity.agent_id || undefined,
+      activity_type: activity.activity_type as ActivityType,
+      message: activity.message,
+      metadata: activity.metadata || undefined,
+      created_at: activity.created_at,
+      agent: activity.agent_id ? {
+        id: activity.agent_id,
+        name: activity.agent_name || '',
+        avatar_emoji: activity.agent_avatar_emoji || '',
+        role: '',
+        status: 'working' as const,
+        is_master: false,
+        workspace_id: 'default',
+        description: '',
+        created_at: '',
+        updated_at: '',
+      } : undefined,
+    };
+
+    // Broadcast to SSE clients
+    broadcast({
+      type: 'activity_logged',
+      payload: result,
+    });
+
+    return NextResponse.json(result, { status: 201 });
+  } catch (error) {
+    console.error('Error creating activity:', error);
+    return NextResponse.json(
+      { error: 'Failed to create activity' },
+      { status: 500 }
+    );
+  }
+}
