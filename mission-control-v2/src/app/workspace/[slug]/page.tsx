@@ -35,22 +35,36 @@ export default function WorkspacePage() {
 
   // Load workspace data
   useEffect(() => {
+    let loadedWorkspace = false;
+    
     async function loadWorkspace() {
+      setIsLoading(true);
       try {
         const res = await fetch(`/api/workspaces/${slug}`);
         if (res.ok) {
           const data = await res.json();
           setWorkspace(data);
-        } else if (res.status === 404) {
-          setNotFound(true);
-          setIsLoading(false);
+          loadedWorkspace = true;
           return;
         }
+        
+        if (res.status === 404) {
+          setNotFound(true);
+          return;
+        }
+        
+        // Handle other errors (500, 401, etc.)
+        const body = await res.json().catch(() => null);
+        console.error('Failed to load workspace:', res.status, body);
+        setNotFound(true);
       } catch (error) {
         console.error('Failed to load workspace:', error);
         setNotFound(true);
-        setIsLoading(false);
-        return;
+      } finally {
+        // Clear loading if workspace failed to load (second useEffect handles success case)
+        if (!loadedWorkspace) {
+          setIsLoading(false);
+        }
       }
     }
 
