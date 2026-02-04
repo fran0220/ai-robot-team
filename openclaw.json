@@ -163,11 +163,12 @@
       {
         "id": "sage",
         "workspace": "./agents/sage/workspace",
+        "thinkingDefault": "high",
         "model": {
-          "primary": "claude-proxy/claude-sonnet-4-5-20250929",
+          "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
-            "gpt-proxy/gpt-5.2",
-            "gemini-proxy/gemini-2.5-pro"
+            "claude-proxy/claude-sonnet-4-5-20250929",
+            "gemini-proxy/gemini-3-flash"
           ]
         }
       },
@@ -186,44 +187,48 @@
       {
         "id": "jarvis",
         "workspace": "./agents/jarvis/workspace",
+        "thinkingDefault": "high",
         "model": {
-          "primary": "claude-proxy/claude-opus-4-5-20251101",
+          "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
-            "gpt-proxy/gpt-5.2-codex",
-            "gemini-proxy/gemini-3-pro-preview"
+            "claude-proxy/claude-sonnet-4-5-20250929",
+            "gemini-proxy/gemini-3-flash"
           ]
         }
       },
       {
         "id": "friday",
         "workspace": "./agents/friday/workspace",
+        "thinkingDefault": "high",
         "model": {
-          "primary": "claude-proxy/claude-sonnet-4-5-20250929",
+          "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
-            "gpt-proxy/gpt-5.1-codex",
-            "gemini-proxy/gemini-2.5-flash"
+            "claude-proxy/claude-sonnet-4-5-20250929",
+            "gemini-proxy/gemini-3-flash"
           ]
         }
       },
       {
         "id": "vision",
         "workspace": "./agents/vision/workspace",
+        "thinkingDefault": "high",
         "model": {
-          "primary": "gemini-proxy/gemini-3-pro-preview",
+          "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
-            "claude-proxy/claude-opus-4-5-20251101",
-            "gpt-proxy/gpt-5.2"
+            "claude-proxy/claude-sonnet-4-5-20250929",
+            "gemini-proxy/gemini-3-flash"
           ]
         }
       },
       {
         "id": "idra",
         "workspace": "./agents/idra/workspace",
+        "thinkingDefault": "high",
         "model": {
-          "primary": "claude-proxy/claude-sonnet-4-20250514",
+          "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
-            "gpt-proxy/gpt-5",
-            "gemini-proxy/gemini-2.5-flash"
+            "claude-proxy/claude-sonnet-4-5-20250929",
+            "gemini-proxy/gemini-3-flash"
           ]
         }
       },
@@ -243,10 +248,10 @@
         "id": "xiaomao",
         "workspace": "./agents/xiaomao/workspace",
         "model": {
-          "primary": "claude-proxy/claude-haiku-4-5-20251001",
+          "primary": "gemini-proxy/gemini-3-pro-preview",
           "fallbacks": [
-            "gpt-proxy/gpt-5",
-            "gemini-proxy/gemini-2.5-flash"
+            "gpt-proxy/gpt-5.2-codex",
+            "claude-proxy/claude-sonnet-4-5-20250929"
           ]
         }
       }
