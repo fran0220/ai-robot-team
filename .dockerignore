@@ -1,0 +1,30 @@
+# Git
+.git/
+.gitignore
+
+# Local state
+.openclaw/
+.env
+.env.local
+.env.*
+
+# Apps (deployed separately)
+apps/
+
+# Node modules
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temp
+*.tmp
+*.swp

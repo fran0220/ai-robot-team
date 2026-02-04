@@ -1,0 +1,13 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+healthcheckPath = "/health"
+healthcheckTimeout = 300
+restartPolicyType = "always"
+restartPolicyMaxRetries = 3
+
+# Volume mount for persistent state
+[[mounts]]
+path = "/data"
