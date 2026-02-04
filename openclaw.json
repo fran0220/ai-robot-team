@@ -144,6 +144,7 @@
       },
       "workspace": "./workspace",
       "maxConcurrent": 4,
+      "thinkingDefault": "high",
       "subagents": {
         "maxConcurrent": 8
       }
