@@ -1,0 +1,407 @@
+# 角色 → 技能映射表
+# Team Creator 使用此文件为 agent 推荐技能
+
+# ============================================
+# 通用基础技能（所有 agent 都应具备）
+# ============================================
+universal:
+  required:
+    - openclaw              # 平台基础
+    - writing-plans         # 计划编写
+    - executing-plans       # 计划执行
+    - verification-before-completion  # 完成验证
+  optional:
+    - session-handoff       # 会话交接
+    - brainstorming         # 头脑风暴
+
+# ============================================
+# 角色类型 → 技能映射
+# ============================================
+roles:
+  # ---------- 产品/需求类 ----------
+  product_manager:
+    name: "产品经理"
+    core_skills:
+      - business-analyst
+      - writing-prds
+      - brainstorming
+      - project-manager
+    extended_skills:
+      - research-analyst
+      - competitor-alternatives
+      - marketing-psychology
+      - pricing-strategy
+    vibe: "有条理、善于沟通、以用户为中心"
+    emoji: "📋"
+
+  business_analyst:
+    name: "业务分析师"
+    core_skills:
+      - business-analyst
+      - research-analyst
+      - analytics-tracking
+      - web-research
+    extended_skills:
+      - database-schema-designer
+      - api-design-principles
+      - c4-architecture
+    vibe: "严谨、数据驱动、逻辑清晰"
+    emoji: "📊"
+
+  # ---------- 研究/分析类 ----------
+  researcher:
+    name: "研究员"
+    core_skills:
+      - research-analyst
+      - web-research
+      - ai-rag-pipeline
+      - web-search
+    extended_skills:
+      - prompt-engineering
+      - llm-models
+      - analytics-tracking
+    vibe: "好奇、深入、注重细节"
+    emoji: "🔬"
+
+  data_analyst:
+    name: "数据分析师"
+    core_skills:
+      - python-executor
+      - analytics-tracking
+      - ai-rag-pipeline
+      - database-schema-designer
+    extended_skills:
+      - research-analyst
+      - python-performance-optimization
+      - prompt-engineering
+    vibe: "严谨、逻辑、数据说话"
+    emoji: "📈"
+
+  # ---------- 开发类 ----------
+  frontend_developer:
+    name: "前端开发"
+    core_skills:
+      - frontend-design
+      - next-best-practices
+      - vercel-react-best-practices
+      - web-design-guidelines
+    extended_skills:
+      - tailwind-design-system
+      - react-dev
+      - vue-best-practices
+      - remotion-best-practices
+    vibe: "注重用户体验、追求完美像素"
+    emoji: "🎨"
+
+  backend_developer:
+    name: "后端开发"
+    core_skills:
+      - nodejs-backend-patterns
+      - api-design-principles
+      - database-schema-designer
+      - supabase-postgres-best-practices
+    extended_skills:
+      - architecture-patterns
+      - security-review-2
+      - python-performance-optimization
+      - openapi-to-typescript
+    vibe: "稳健、高效、系统思维"
+    emoji: "⚙️"
+
+  fullstack_developer:
+    name: "全栈开发"
+    core_skills:
+      - frontend-design
+      - nodejs-backend-patterns
+      - next-best-practices
+      - database-schema-designer
+    extended_skills:
+      - api-design-principles
+      - vercel-react-best-practices
+      - supabase-postgres-best-practices
+      - turborepo
+    vibe: "全面、高效、端到端思考"
+    emoji: "🔧"
+
+  architect:
+    name: "架构师"
+    core_skills:
+      - architecture-patterns
+      - c4-architecture
+      - api-design-principles
+      - mermaid-diagrams
+    extended_skills:
+      - database-schema-designer
+      - security-review-2
+      - systematic-debugging
+    vibe: "全局视野、系统思维、追求优雅"
+    emoji: "🏛️"
+
+  # ---------- 测试/质量类 ----------
+  qa_engineer:
+    name: "测试工程师"
+    core_skills:
+      - qa-expert
+      - qa-test-planner
+      - webapp-testing
+      - test-driven-development
+    extended_skills:
+      - security-review-2
+      - systematic-debugging
+      - audit-website
+    vibe: "细致、严谨、追求零缺陷"
+    emoji: "🔍"
+
+  security_engineer:
+    name: "安全工程师"
+    core_skills:
+      - security-review-2
+      - audit-website
+      - code-review
+    extended_skills:
+      - qa-test-planner
+      - systematic-debugging
+    vibe: "警觉、谨慎、防患未然"
+    emoji: "🛡️"
+
+  # ---------- 运维/DevOps ----------
+  devops_engineer:
+    name: "DevOps 工程师"
+    core_skills:
+      - deploy
+      - railway-deploy
+      - turborepo
+      - systematic-debugging
+    extended_skills:
+      - dependency-updater
+      - next-upgrade
+      - upgrading-expo
+    vibe: "自动化、可靠、持续改进"
+    emoji: "🚀"
+
+  # ---------- 内容/创意类 ----------
+  copywriter:
+    name: "文案"
+    core_skills:
+      - copywriting
+      - writing-skills
+      - humanizer
+      - writing-clearly-and-concisely
+    extended_skills:
+      - seo-audit
+      - content-strategy
+      - social-content
+      - copy-editing
+    vibe: "创意、感染力、精准表达"
+    emoji: "✍️"
+
+  content_creator:
+    name: "内容创作者"
+    core_skills:
+      - ai-content-pipeline
+      - ai-video-generation
+      - ai-image-generation
+      - copywriting
+    extended_skills:
+      - ai-social-media-content
+      - ai-marketing-videos
+      - video-prompting-guide
+      - ai-podcast-creation
+    vibe: "创意无限、多媒体全能"
+    emoji: "🎬"
+
+  designer:
+    name: "设计师"
+    core_skills:
+      - canvas-design
+      - ai-image-generation
+      - frontend-design
+      - brand-guidelines
+    extended_skills:
+      - theme-factory
+      - web-design-guidelines
+      - algorithmic-art
+      - image-upscaling
+    vibe: "视觉敏锐、审美在线"
+    emoji: "🎨"
+
+  # ---------- 营销类 ----------
+  marketer:
+    name: "营销专员"
+    core_skills:
+      - marketing-psychology
+      - content-strategy
+      - seo-audit
+      - social-content
+    extended_skills:
+      - pricing-strategy
+      - launch-strategy
+      - paid-ads
+      - email-sequence
+      - ab-test-setup
+    vibe: "增长思维、数据驱动"
+    emoji: "📣"
+
+  seo_specialist:
+    name: "SEO 专家"
+    core_skills:
+      - seo-audit
+      - programmatic-seo
+      - schema-markup
+      - analytics-tracking
+    extended_skills:
+      - content-strategy
+      - copywriting
+      - competitor-alternatives
+    vibe: "数据敏感、追求排名"
+    emoji: "🔎"
+
+  # ---------- 项目管理类 ----------
+  project_manager:
+    name: "项目经理"
+    core_skills:
+      - project-manager
+      - mission-control
+      - writing-plans
+      - executing-plans
+    extended_skills:
+      - session-handoff
+      - daily-meeting-update
+      - dispatching-parallel-agents
+      - subagent-driven-development
+    vibe: "有序、高效、推动力强"
+    emoji: "📅"
+
+  coordinator:
+    name: "协调员"
+    core_skills:
+      - mission-control
+      - session-handoff
+      - professional-communication
+      - internal-comms
+    extended_skills:
+      - daily-meeting-update
+      - feedback-mastery
+      - difficult-workplace-conversations
+    vibe: "善于沟通、润滑剂"
+    emoji: "🤝"
+
+  # ---------- 文档类 ----------
+  technical_writer:
+    name: "技术文档工程师"
+    core_skills:
+      - crafting-effective-readmes
+      - doc-coauthoring
+      - mermaid-diagrams
+      - writing-clearly-and-concisely
+    extended_skills:
+      - pdf
+      - docx
+      - vitepress
+      - slidev
+    vibe: "清晰、准确、易懂"
+    emoji: "📝"
+
+  report_writer:
+    name: "报告撰写"
+    core_skills:
+      - doc-coauthoring
+      - pdf
+      - docx
+      - writing-skills
+    extended_skills:
+      - xlsx
+      - pptx
+      - marp-slide
+      - analytics-tracking
+    vibe: "专业、规范、逻辑清晰"
+    emoji: "📄"
+
+  # ---------- 特殊角色 ----------
+  ai_trainer:
+    name: "AI 训练师"
+    core_skills:
+      - prompt-engineering
+      - prompt-engineering-patterns
+      - llm-models
+      - skill-creator
+    extended_skills:
+      - ai-rag-pipeline
+      - ai-automation-workflows
+      - mcp-builder
+    vibe: "懂 AI、善调教"
+    emoji: "🤖"
+
+  automation_engineer:
+    name: "自动化工程师"
+    core_skills:
+      - ai-automation-workflows
+      - browser-use
+      - agent-browser
+      - python-executor
+    extended_skills:
+      - mcp-builder
+      - ai-content-pipeline
+      - openapi-to-typescript
+    vibe: "能自动化的就不手动"
+    emoji: "⚡"
+
+# ============================================
+# 技能分类索引（用于去重和覆盖检查）
+# ============================================
+skill_categories:
+  platform_core:
+    - openclaw
+    - mission-control
+    - find-skills
+  
+  workflow:
+    - writing-plans
+    - executing-plans
+    - verification-before-completion
+    - brainstorming
+    - session-handoff
+    - dispatching-parallel-agents
+    - subagent-driven-development
+  
+  development:
+    - code-review
+    - frontend-design
+    - next-best-practices
+    - nodejs-backend-patterns
+    - api-design-principles
+    - database-schema-designer
+    - architecture-patterns
+  
+  testing:
+    - qa-expert
+    - qa-test-planner
+    - webapp-testing
+    - test-driven-development
+    - security-review-2
+  
+  content:
+    - copywriting
+    - writing-skills
+    - ai-content-pipeline
+    - ai-video-generation
+    - ai-image-generation
+  
+  marketing:
+    - seo-audit
+    - marketing-psychology
+    - content-strategy
+    - pricing-strategy
+  
+  research:
+    - research-analyst
+    - web-research
+    - ai-rag-pipeline
+    - web-search
+  
+  documentation:
+    - pdf
+    - docx
+    - xlsx
+    - pptx
+    - doc-coauthoring

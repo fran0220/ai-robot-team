@@ -1,0 +1,206 @@
+# 行业预设配置
+# Team Creator 使用此文件快速匹配行业特定的技能和合规要求
+
+finance:
+  name: "金融"
+  compliance:
+    - "禁止泄露 PII（个人身份信息）"
+    - "所有决策需保留审计日志"
+    - "投资建议需注明风险提示"
+    - "遵守金融行业监管要求"
+  data_sensitivity: "机密"
+  required_skills:
+    - security-review-2
+    - audit-website
+    - analytics-tracking
+  recommended_roles:
+    - analyst: "数据分析师"
+    - researcher: "研究员"
+    - reporter: "报告撰写"
+    - compliance: "合规审查"
+  typical_deliverables:
+    - "投研报告"
+    - "风险评估"
+    - "市场分析"
+    - "合规报告"
+
+healthcare:
+  name: "医疗健康"
+  compliance:
+    - "禁止提供诊断性建议"
+    - "引用权威医学来源"
+    - "患者数据脱敏处理"
+    - "遵守医疗数据保护法规"
+  data_sensitivity: "高度机密"
+  required_skills:
+    - professional-communication
+    - research-analyst
+    - web-research
+  recommended_roles:
+    - researcher: "医学研究员"
+    - writer: "内容撰写"
+    - reviewer: "医学审核"
+    - coordinator: "项目协调"
+  typical_deliverables:
+    - "医学综述"
+    - "健康科普"
+    - "临床指南摘要"
+    - "研究报告"
+
+manufacturing:
+  name: "制造业"
+  compliance:
+    - "遵守生产安全规范"
+    - "质量追溯记录"
+    - "设备操作日志"
+  data_sensitivity: "内部"
+  required_skills:
+    - systematic-debugging
+    - c4-architecture
+    - qa-test-planner
+  recommended_roles:
+    - engineer: "工程师"
+    - qa: "质量工程师"
+    - planner: "生产计划"
+    - analyst: "数据分析"
+  typical_deliverables:
+    - "SOP 文档"
+    - "质量报告"
+    - "故障分析"
+    - "生产计划"
+
+education:
+  name: "教育"
+  compliance:
+    - "未成年人数据保护"
+    - "内容适龄性审查"
+    - "教学内容准确性"
+  data_sensitivity: "内部"
+  required_skills:
+    - writing-skills
+    - humanizer
+    - professional-communication
+  recommended_roles:
+    - designer: "课程设计师"
+    - writer: "内容编辑"
+    - reviewer: "质量审核"
+    - tutor: "辅导助手"
+  typical_deliverables:
+    - "课程大纲"
+    - "教学材料"
+    - "习题解析"
+    - "学习报告"
+
+ecommerce:
+  name: "电商"
+  compliance:
+    - "价格合规"
+    - "广告法合规"
+    - "消费者权益保护"
+  data_sensitivity: "内部"
+  required_skills:
+    - pricing-strategy
+    - competitor-alternatives
+    - seo-audit
+    - copywriting
+  recommended_roles:
+    - marketer: "营销专员"
+    - analyst: "数据分析"
+    - copywriter: "文案"
+    - designer: "视觉设计"
+  typical_deliverables:
+    - "商品文案"
+    - "营销方案"
+    - "数据报告"
+    - "竞品分析"
+
+technology:
+  name: "科技/软件"
+  compliance:
+    - "代码安全审查"
+    - "API 密钥保护"
+    - "开源协议遵守"
+  data_sensitivity: "内部"
+  required_skills:
+    - code-review
+    - security-review-2
+    - test-driven-development
+    - systematic-debugging
+  recommended_roles:
+    - developer: "开发工程师"
+    - architect: "架构师"
+    - qa: "测试工程师"
+    - devops: "运维工程师"
+    - pm: "产品经理"
+  typical_deliverables:
+    - "代码"
+    - "技术文档"
+    - "测试报告"
+    - "部署脚本"
+
+creative:
+  name: "创意/媒体"
+  compliance:
+    - "版权合规"
+    - "内容原创性"
+    - "品牌一致性"
+  data_sensitivity: "公开"
+  required_skills:
+    - canvas-design
+    - ai-image-generation
+    - ai-video-generation
+    - copywriting
+    - brand-guidelines
+  recommended_roles:
+    - designer: "设计师"
+    - copywriter: "文案"
+    - video: "视频制作"
+    - strategist: "创意策略"
+  typical_deliverables:
+    - "视觉设计"
+    - "视频内容"
+    - "营销文案"
+    - "品牌素材"
+
+consulting:
+  name: "咨询/专业服务"
+  compliance:
+    - "客户信息保密"
+    - "专业意见免责"
+    - "利益冲突披露"
+  data_sensitivity: "机密"
+  required_skills:
+    - research-analyst
+    - business-analyst
+    - writing-plans
+    - professional-communication
+  recommended_roles:
+    - consultant: "顾问"
+    - researcher: "研究员"
+    - analyst: "分析师"
+    - writer: "报告撰写"
+  typical_deliverables:
+    - "咨询报告"
+    - "行业分析"
+    - "战略建议"
+    - "实施方案"
+
+general:
+  name: "通用"
+  compliance:
+    - "数据安全"
+    - "合法合规"
+  data_sensitivity: "内部"
+  required_skills:
+    - openclaw
+    - mission-control
+    - writing-plans
+    - executing-plans
+  recommended_roles:
+    - coordinator: "协调员"
+    - analyst: "分析师"
+    - executor: "执行者"
+  typical_deliverables:
+    - "报告"
+    - "文档"
+    - "分析结果"

@@ -3,7 +3,7 @@
     "mode": "merge",
     "providers": {
       "claude-proxy": {
-        "baseUrl": "${PROXY_BASE_URL}/v1",
+        "baseUrl": "${PROXY_BASE_URL}",
         "apiKey": "${PROXY_API_KEY}",
         "api": "anthropic-messages",
         "models": [
@@ -46,7 +46,7 @@
         ]
       },
       "gpt-proxy": {
-        "baseUrl": "${PROXY_BASE_URL}/v1",
+        "baseUrl": "${PROXY_BASE_URL}",
         "apiKey": "${PROXY_API_KEY}",
         "api": "openai-responses",
         "models": [
@@ -89,7 +89,7 @@
         ]
       },
       "gemini-proxy": {
-        "baseUrl": "${PROXY_BASE_URL}/v1",
+        "baseUrl": "${PROXY_BASE_URL}",
         "apiKey": "${PROXY_API_KEY}",
         "api": "openai-completions",
         "models": [
@@ -150,8 +150,8 @@
     },
     "list": [
       {
-        "id": "nova",
-        "workspace": "./agents/nova/workspace",
+        "id": "platform.architect",
+        "workspace": "./platform/agents/team-creator/workspace",
         "model": {
           "primary": "claude-proxy/claude-opus-4-5-20251101",
           "fallbacks": [
@@ -161,9 +161,19 @@
         }
       },
       {
-        "id": "sage",
-        "workspace": "./agents/sage/workspace",
-        "thinkingDefault": "high",
+        "id": "robotics.nova",
+        "workspace": "./teams/robotics/agents/nova/workspace",
+        "model": {
+          "primary": "claude-proxy/claude-opus-4-5-20251101",
+          "fallbacks": [
+            "gpt-proxy/gpt-5.2-codex",
+            "gemini-proxy/gemini-3-flash"
+          ]
+        }
+      },
+      {
+        "id": "robotics.sage",
+        "workspace": "./teams/robotics/agents/sage/workspace",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -173,9 +183,8 @@
         }
       },
       {
-        "id": "atlas",
-        "workspace": "./agents/atlas/workspace",
-        "thinkingDefault": "high",
+        "id": "robotics.atlas",
+        "workspace": "./teams/robotics/agents/atlas/workspace",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -185,9 +194,8 @@
         }
       },
       {
-        "id": "jarvis",
-        "workspace": "./agents/jarvis/workspace",
-        "thinkingDefault": "high",
+        "id": "robotics.jarvis",
+        "workspace": "./teams/robotics/agents/jarvis/workspace",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -197,9 +205,8 @@
         }
       },
       {
-        "id": "friday",
-        "workspace": "./agents/friday/workspace",
-        "thinkingDefault": "high",
+        "id": "robotics.friday",
+        "workspace": "./teams/robotics/agents/friday/workspace",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -209,9 +216,8 @@
         }
       },
       {
-        "id": "vision",
-        "workspace": "./agents/vision/workspace",
-        "thinkingDefault": "high",
+        "id": "robotics.vision",
+        "workspace": "./teams/robotics/agents/vision/workspace",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -221,9 +227,8 @@
         }
       },
       {
-        "id": "idra",
-        "workspace": "./agents/idra/workspace",
-        "thinkingDefault": "high",
+        "id": "robotics.idra",
+        "workspace": "./teams/robotics/agents/idra/workspace",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -233,9 +238,8 @@
         }
       },
       {
-        "id": "mech",
-        "workspace": "./agents/mech/workspace",
-        "thinkingDefault": "high",
+        "id": "robotics.mech",
+        "workspace": "./teams/robotics/agents/mech/workspace",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -245,8 +249,8 @@
         }
       },
       {
-        "id": "xiaomao",
-        "workspace": "./agents/xiaomao/workspace",
+        "id": "robotics.xiaomao",
+        "workspace": "./teams/robotics/agents/xiaomao/workspace",
         "model": {
           "primary": "gemini-proxy/gemini-3-pro-preview",
           "fallbacks": [

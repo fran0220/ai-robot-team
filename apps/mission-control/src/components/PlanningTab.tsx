@@ -1,0 +1,370 @@
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
+import { CheckCircle, Lock, AlertCircle, Loader2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+
+interface PlanningOption {
+  id: string;
+  label: string;
+}
+
+interface PlanningQuestion {
+  question: string;
+  options: PlanningOption[];
+}
+
+interface PlanningMessage {
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: number;
+}
+
+interface PlanningState {
+  taskId: string;
+  sessionKey?: string;
+  messages: PlanningMessage[];
+  currentQuestion?: PlanningQuestion;
+  isComplete: boolean;
+  spec?: {
+    title: string;
+    summary: string;
+    deliverables: string[];
+    success_criteria: string[];
+    constraints: Record<string, unknown>;
+  };
+  agents?: Array<{
+    name: string;
+    role: string;
+    avatar_emoji: string;
+    soul_md: string;
+    instructions: string;
+  }>;
+  isStarted: boolean;
+}
+
+interface PlanningTabProps {
+  taskId: string;
+  onSpecLocked?: () => void;
+}
+
+export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
+  const t = useTranslations('planning');
+  const [state, setState] = useState<PlanningState | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [starting, setStarting] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [otherText, setOtherText] = useState('');
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+
+  const loadState = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/tasks/${taskId}/planning`);
+      if (res.ok) {
+        const data = await res.json();
+        setState(data);
+        
+        if (data.isComplete && onSpecLocked) {
+          onSpecLocked();
+        }
+      }
+    } catch (err) {
+      console.error('Failed to load planning state:', err);
+      setError(t('failedToLoad'));
+    } finally {
+      setLoading(false);
+    }
+  }, [taskId, onSpecLocked, t]);
+
+  useEffect(() => {
+    loadState();
+  }, [loadState]);
+
+  const startPlanning = async () => {
+    setStarting(true);
+    setError(null);
+    
+    try {
+      const res = await fetch(`/api/tasks/${taskId}/planning`, { method: 'POST' });
+      const data = await res.json();
+      
+      if (res.ok) {
+        setState(prev => ({
+          ...prev!,
+          sessionKey: data.sessionKey,
+          messages: data.messages || [],
+          currentQuestion: data.currentQuestion,
+          isStarted: true,
+        }));
+      } else {
+        setError(data.error || t('failedToStart'));
+      }
+    } catch {
+      setError(t('failedToStart'));
+    } finally {
+      setStarting(false);
+    }
+  };
+
+  const submitAnswer = async () => {
+    if (!selectedOption) return;
+    
+    setSubmitting(true);
+    setError(null);
+    
+    try {
+      const res = await fetch(`/api/tasks/${taskId}/planning/answer`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          answer: selectedOption === 'other' ? 'Other' : selectedOption,
+          otherText: selectedOption === 'other' ? otherText : undefined,
+        }),
+      });
+      
+      const data = await res.json();
+      
+      if (res.ok) {
+        setSelectedOption(null);
+        setOtherText('');
+        
+        if (data.complete) {
+          setState(prev => ({
+            ...prev!,
+            isComplete: true,
+            spec: data.spec,
+            agents: data.agents,
+            messages: data.messages,
+            currentQuestion: undefined,
+          }));
+          
+          if (onSpecLocked) {
+            onSpecLocked();
+          }
+        } else {
+          setState(prev => ({
+            ...prev!,
+            currentQuestion: data.currentQuestion,
+            messages: data.messages,
+          }));
+        }
+      } else {
+        setError(data.error || t('failedToSubmit'));
+      }
+    } catch {
+      setError(t('failedToSubmit'));
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <Loader2 className="w-6 h-6 animate-spin text-mc-accent" />
+        <span className="ml-2 text-mc-text-secondary">{t('loadingState')}</span>
+      </div>
+    );
+  }
+
+  if (state?.isComplete && state?.spec) {
+    return (
+      <div className="p-4 space-y-6">
+        <div className="flex items-center gap-2 text-green-400">
+          <Lock className="w-5 h-5" />
+          <span className="font-medium">{t('complete')}</span>
+        </div>
+        
+        <div className="bg-mc-bg border border-mc-border rounded-lg p-4">
+          <h3 className="font-medium mb-2">{state.spec.title}</h3>
+          <p className="text-sm text-mc-text-secondary mb-4">{state.spec.summary}</p>
+          
+          {state.spec.deliverables?.length > 0 && (
+            <div className="mb-3">
+              <h4 className="text-sm font-medium mb-1">{t('deliverables')}:</h4>
+              <ul className="list-disc list-inside text-sm text-mc-text-secondary">
+                {state.spec.deliverables.map((d, i) => (
+                  <li key={i}>{d}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          
+          {state.spec.success_criteria?.length > 0 && (
+            <div>
+              <h4 className="text-sm font-medium mb-1">{t('successCriteria')}:</h4>
+              <ul className="list-disc list-inside text-sm text-mc-text-secondary">
+                {state.spec.success_criteria.map((c, i) => (
+                  <li key={i}>{c}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+        
+        {state.agents && state.agents.length > 0 && (
+          <div>
+            <h3 className="font-medium mb-2">{t('agentsCreated')}:</h3>
+            <div className="space-y-2">
+              {state.agents.map((agent, i) => (
+                <div key={i} className="bg-mc-bg border border-mc-border rounded-lg p-3 flex items-center gap-3">
+                  <span className="text-2xl">{agent.avatar_emoji}</span>
+                  <div>
+                    <p className="font-medium">{agent.name}</p>
+                    <p className="text-sm text-mc-text-secondary">{agent.role}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (!state?.isStarted) {
+    return (
+      <div className="flex flex-col items-center justify-center p-8 space-y-4">
+        <div className="text-center">
+          <h3 className="text-lg font-medium mb-2">{t('startPlanning')}</h3>
+          <p className="text-mc-text-secondary text-sm max-w-md">
+            {t('startPlanningDescription')}
+          </p>
+        </div>
+        
+        {error && (
+          <div className="flex items-center gap-2 text-red-400 text-sm">
+            <AlertCircle className="w-4 h-4" />
+            {error}
+          </div>
+        )}
+        
+        <button
+          onClick={startPlanning}
+          disabled={starting}
+          className="px-6 py-3 bg-mc-accent text-mc-bg rounded-lg font-medium hover:bg-mc-accent/90 disabled:opacity-50 flex items-center gap-2"
+        >
+          {starting ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" />
+              {t('starting')}
+            </>
+          ) : (
+            <>📋 {t('startPlanning')}</>
+          )}
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col h-full">
+      <div className="p-4 border-b border-mc-border">
+        <div className="flex items-center gap-2 text-sm text-mc-text-secondary">
+          <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
+          <span>{t('inProgress')}</span>
+        </div>
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-6">
+        {state?.currentQuestion ? (
+          <div className="max-w-xl mx-auto">
+            <h3 className="text-lg font-medium mb-6">
+              {state.currentQuestion.question}
+            </h3>
+
+            <div className="space-y-3">
+              {state.currentQuestion.options.map((option) => {
+                const isSelected = selectedOption === option.label;
+                const isOther = option.id === 'other' || option.label.toLowerCase() === 'other';
+
+                return (
+                  <div key={option.id}>
+                    <button
+                      onClick={() => setSelectedOption(option.label)}
+                      disabled={submitting}
+                      className={`w-full flex items-center gap-3 p-4 rounded-lg border transition-all text-left ${
+                        isSelected
+                          ? 'border-mc-accent bg-mc-accent/10'
+                          : 'border-mc-border hover:border-mc-accent/50'
+                      } disabled:opacity-50`}
+                    >
+                      <span className={`w-8 h-8 rounded flex items-center justify-center text-sm font-bold ${
+                        isSelected ? 'bg-mc-accent text-mc-bg' : 'bg-mc-bg-tertiary'
+                      }`}>
+                        {option.id.toUpperCase()}
+                      </span>
+                      <span className="flex-1">{option.label}</span>
+                      {isSelected && <CheckCircle className="w-5 h-5 text-mc-accent" />}
+                    </button>
+
+                    {isOther && isSelected && (
+                      <div className="mt-2 ml-11">
+                        <input
+                          type="text"
+                          value={otherText}
+                          onChange={(e) => setOtherText(e.target.value)}
+                          placeholder={t('pleaseSpecify')}
+                          className="w-full bg-mc-bg border border-mc-border rounded px-3 py-2 text-sm focus:outline-none focus:border-mc-accent"
+                          disabled={submitting}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {error && (
+              <div className="flex items-center gap-2 text-red-400 text-sm mt-4">
+                <AlertCircle className="w-4 h-4" />
+                {error}
+              </div>
+            )}
+
+            <div className="mt-6">
+              <button
+                onClick={submitAnswer}
+                disabled={!selectedOption || submitting || (selectedOption === 'Other' && !otherText.trim())}
+                className="w-full px-6 py-3 bg-mc-accent text-mc-bg rounded-lg font-medium hover:bg-mc-accent/90 disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {submitting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    {t('processing')}
+                  </>
+                ) : (
+                  t('continue')
+                )}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center">
+              <Loader2 className="w-8 h-8 animate-spin text-mc-accent mx-auto mb-2" />
+              <p className="text-mc-text-secondary">{t('waitingQuestion')}</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {state?.messages && state.messages.length > 0 && (
+        <details className="border-t border-mc-border">
+          <summary className="p-3 text-sm text-mc-text-secondary cursor-pointer hover:bg-mc-bg-tertiary">
+            {t('viewConversation')} ({state.messages.length} {t('messages')})
+          </summary>
+          <div className="p-3 space-y-2 max-h-48 overflow-y-auto bg-mc-bg">
+            {state.messages.map((msg, i) => (
+              <div key={i} className={`text-sm ${msg.role === 'user' ? 'text-mc-accent' : 'text-mc-text-secondary'}`}>
+                <span className="font-medium">{msg.role === 'user' ? 'You' : 'Charlie'}:</span>{' '}
+                <span className="opacity-75">{msg.content.substring(0, 100)}...</span>
+              </div>
+            ))}
+          </div>
+        </details>
+      )}
+    </div>
+  );
+}

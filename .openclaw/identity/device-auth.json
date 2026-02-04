@@ -3,14 +3,14 @@
   "deviceId": "4b87d54470c173336a3f4f4c8c77c00305a251ddfa9cae8b31f1f1fe3fc244e0",
   "tokens": {
     "operator": {
-      "token": "7ec4ee929be840b8a7bb394044bb736c",
+      "token": "7f7d28cba44b4863ab8a81560867988f",
       "role": "operator",
       "scopes": [
         "operator.admin",
         "operator.approvals",
         "operator.pairing"
       ],
-      "updatedAtMs": 1770235312021
+      "updatedAtMs": 1770245824714
     }
   }
 }

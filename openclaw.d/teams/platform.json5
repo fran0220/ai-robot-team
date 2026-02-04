@@ -1,0 +1,14 @@
+// Platform agents - 平台核心服务
+[
+  {
+    "id": "platform.architect",
+    "workspace": "./platform/agents/team-creator/workspace",
+    "model": {
+      "primary": "claude-proxy/claude-opus-4-5-20251101",
+      "fallbacks": [
+        "gpt-proxy/gpt-5.2-codex",
+        "gemini-proxy/gemini-3-flash"
+      ]
+    }
+  }
+]

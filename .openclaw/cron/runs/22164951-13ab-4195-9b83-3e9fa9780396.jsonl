@@ -103,3 +103,4 @@
 {"ts":1770198146265,"jobId":"22164951-13ab-4195-9b83-3e9fa9780396","action":"finished","status":"ok","summary":"HEARTBEAT_OK","runAtMs":1770198120000,"durationMs":26265,"nextRunAtMs":1770199020000}
 {"ts":1770199045073,"jobId":"22164951-13ab-4195-9b83-3e9fa9780396","action":"finished","status":"ok","summary":"HEARTBEAT_OK","runAtMs":1770199020001,"durationMs":25072,"nextRunAtMs":1770199920000}
 {"ts":1770199930860,"jobId":"22164951-13ab-4195-9b83-3e9fa9780396","action":"finished","status":"ok","summary":"HEARTBEAT_OK","runAtMs":1770199920001,"durationMs":10859,"nextRunAtMs":1770200820000}
+{"ts":1770245820768,"jobId":"22164951-13ab-4195-9b83-3e9fa9780396","action":"finished","status":"ok","summary":"HTTP 404: 404 page not found","runAtMs":1770245820003,"durationMs":764,"nextRunAtMs":1770246720000}

@@ -29,5 +29,36 @@
     },
     "createdAtMs": 1770105699126,
     "approvedAtMs": 1770105699126
+  },
+  "4b87d54470c173336a3f4f4c8c77c00305a251ddfa9cae8b31f1f1fe3fc244e0": {
+    "deviceId": "4b87d54470c173336a3f4f4c8c77c00305a251ddfa9cae8b31f1f1fe3fc244e0",
+    "publicKey": "jkyFiKHcw_DSGig_IexDK_K0cCgxs5jocj8lYY3zvEI",
+    "platform": "darwin",
+    "clientId": "cli",
+    "clientMode": "cli",
+    "role": "operator",
+    "roles": [
+      "operator"
+    ],
+    "scopes": [
+      "operator.admin",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "tokens": {
+      "operator": {
+        "token": "7f7d28cba44b4863ab8a81560867988f",
+        "role": "operator",
+        "scopes": [
+          "operator.admin",
+          "operator.approvals",
+          "operator.pairing"
+        ],
+        "createdAtMs": 1770244995778,
+        "lastUsedAtMs": 1770245824700
+      }
+    },
+    "createdAtMs": 1770244995778,
+    "approvedAtMs": 1770244995778
   }
 }

@@ -113,6 +113,77 @@ ln -s /path/to/team-docs docs
 
 ---
 
+## 🔧 OpenClaw 配置
+
+### 9. 修改配置前必须先测试 API 端点
+**日期**：2026-02-05  
+**发现者**：Amp  
+**问题**：看到 404 错误就直接修改 `api` 类型配置，结果改错了  
+**原因**：
+- 代理服务器同时支持多种 API 格式（Anthropic 原生 + OpenAI 兼容）
+- 没有先测试哪个端点工作，哪个不工作
+- 看到 "HTTP 404" 就假设是 API 类型问题
+
+**正确流程**：
+```bash
+# 1. 先测试所有可能的端点
+curl -s -X POST "http://proxy:port/v1/messages" ...     # Anthropic 原生
+curl -s -X POST "http://proxy:port/messages" ...        # 不带 v1
+curl -s -X POST "http://proxy:port/v1/chat/completions" # OpenAI 格式
+
+# 2. 查看代理服务器支持的端点列表
+curl -s "http://proxy:port/"
+
+# 3. 确认哪个工作后再决定是否需要修改配置
+```
+
+**OpenClaw 支持的 API 类型**：
+- `anthropic-messages` - Anthropic 原生格式 `/v1/messages`
+- `openai-completions` - OpenAI completions 格式
+- `openai-responses` - OpenAI responses 格式  
+- `google-generative-ai` - Google Generative AI 格式
+
+**教训**：
+- **测试先于修改** - 永远先测试确认问题，再动手改配置
+- **不要假设原因** - 404 可能是很多原因（路径、认证、网络）
+- **备份配置** - 修改前先 `cp xxx.json xxx.json.bak`
+
+---
+
+### 10. OpenClaw $include 配置拆分
+**日期**：2026-02-05  
+**发现者**：Amp  
+**问题**：如何拆分 openclaw.json 让团队配置独立管理  
+**解决**：使用 `$include` 指令
+
+```json5
+// openclaw.json
+{
+  "agents": {
+    "list": {
+      "$include": [
+        "./openclaw.d/teams/platform.json5",
+        "./openclaw.d/teams/robotics.json5"
+      ]
+    }
+  }
+}
+```
+
+**合并行为**：
+- 单文件：替换整个对象
+- 数组：按顺序深度合并（后面覆盖前面）
+- 支持嵌套引用（最多 10 层）
+
+**热重载**：修改 `agents` 配置不需要重启 Gateway
+
+**教训**：
+- 拆分配置让团队管理更清晰
+- Team Creator 只需追加新文件，不修改主配置
+- 始终测试配置加载是否正常：`openclaw doctor`
+
+---
+
 ## 📋 添加新坑的模板
 
 ```markdown

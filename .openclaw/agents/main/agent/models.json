@@ -223,7 +223,7 @@
       ]
     },
     "claude-proxy": {
-      "baseUrl": "http://67.230.171.248:8317/v1",
+      "baseUrl": "http://67.230.171.248:8317",
       "apiKey": "sk-123456",
       "api": "anthropic-messages",
       "models": [
@@ -298,7 +298,7 @@
       ]
     },
     "gpt-proxy": {
-      "baseUrl": "http://67.230.171.248:8317/v1",
+      "baseUrl": "http://67.230.171.248:8317",
       "apiKey": "sk-123456",
       "api": "openai-responses",
       "models": [
@@ -369,7 +369,7 @@
       ]
     },
     "gemini-proxy": {
-      "baseUrl": "http://67.230.171.248:8317/v1",
+      "baseUrl": "http://67.230.171.248:8317",
       "apiKey": "sk-123456",
       "api": "openai-completions",
       "models": [
