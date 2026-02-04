@@ -1,0 +1,28 @@
+{
+  "entries": [
+    {
+      "containerName": "openclaw-sbx-agent-jarvis-97c0c5d5",
+      "sessionKey": "agent:jarvis",
+      "createdAtMs": 1770113271525,
+      "lastUsedAtMs": 1770113301258,
+      "image": "openclaw-sandbox:bookworm-slim",
+      "configHash": "31a1f48ced0f70a90d103b27281620a113fe7183"
+    },
+    {
+      "containerName": "openclaw-sbx-agent-sage-0df3c2d4",
+      "sessionKey": "agent:sage",
+      "createdAtMs": 1770113271532,
+      "lastUsedAtMs": 1770113315310,
+      "image": "openclaw-sandbox:bookworm-slim",
+      "configHash": "2288cf331621e9e6cd6fb60f5554c2446c134a81"
+    },
+    {
+      "containerName": "openclaw-sbx-agent-friday-dd30c041",
+      "sessionKey": "agent:friday",
+      "createdAtMs": 1770113271538,
+      "lastUsedAtMs": 1770113315319,
+      "image": "openclaw-sandbox:bookworm-slim",
+      "configHash": "246c33f2e56b4f0f191a1f5880d28092800aa239"
+    }
+  ]
+}

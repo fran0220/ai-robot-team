@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+.next/
+dist/
+build/
+out/
+
+# OpenClaw sessions and cache (sensitive + large)
+.openclaw/agents/*/sessions/
+.openclaw/cache/
+
+# Environment files (sensitive)
+.env
+.env.*
+!.env.example
+
+# OpenClaw config (contains API keys)
+openclaw.json
+openclaw.json.bak*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Large binary files
+*.pack
+*.node
+
+# Temporary files
+*.tmp
+*.temp
+
+# MinIO data
+minio-server/data/

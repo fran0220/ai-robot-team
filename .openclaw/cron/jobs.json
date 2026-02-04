@@ -1,0 +1,443 @@
+{
+  "version": 1,
+  "jobs": [
+    {
+      "id": "95d2e867-5649-4168-b7f6-5a6dcaad9bec",
+      "agentId": "nova",
+      "name": "nova-heartbeat",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "createdAtMs": 1770105892040,
+      "updatedAtMs": 1770200636449,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 900000
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "心跳检查：\n1. 查看 tasks/INBOX.md 是否有新任务需要分配\n2. 查看 tasks/NOTIFICATIONS.md 是否有 @nova 提及\n3. 查看 tasks/ACTIVE.md 更新进度\n4. 如有任务，分配并更新 memory/WORKING.md\n5. 如无待办，回复 HEARTBEAT_OK",
+        "model": "proxy-anthropic/claude-opus-4-5-20251101",
+        "timeoutSeconds": 300,
+        "channel": "last"
+      },
+      "isolation": {
+        "postToMainPrefix": "Cron",
+        "postToMainMode": "summary",
+        "postToMainMaxChars": 8000
+      },
+      "state": {
+        "nextRunAtMs": 1770201545669,
+        "lastRunAtMs": 1770200636450,
+        "lastStatus": "ok",
+        "lastDurationMs": 9216
+      }
+    },
+    {
+      "id": "db6329f1-606c-4832-9c9f-c50657405b89",
+      "agentId": "sage",
+      "name": "sage-heartbeat",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "createdAtMs": 1770105895301,
+      "updatedAtMs": 1770200280000,
+      "schedule": {
+        "kind": "cron",
+        "expr": "3,18,33,48 * * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "你是 Sage，调研分析师。执行心跳检查：\n\n## 步骤 1: 检查任务\n查看 tasks/NOTIFICATIONS.md 是否有 @sage 任务分配。\n\n## 步骤 2: 如果有任务 → 立即执行\n**重要：发现任务后必须执行，不能只汇报！**\n- 读取任务详情\n- 使用 parallel-search 进行调研\n- 输出结果到 docs/ 或指定目录\n- 在 tasks/NOTIFICATIONS.md 汇报完成 @nova\n\n## 步骤 3: 如果无任务\n回复 HEARTBEAT_OK",
+        "model": "proxy-openai/gpt-5.2-codex",
+        "timeoutSeconds": 600,
+        "channel": "last"
+      },
+      "isolation": {
+        "postToMainPrefix": "Cron",
+        "postToMainMode": "summary",
+        "postToMainMaxChars": 8000
+      },
+      "state": {
+        "nextRunAtMs": 1770201180000,
+        "lastRunAtMs": 1770200280000,
+        "lastStatus": "ok",
+        "lastDurationMs": 8869
+      }
+    },
+    {
+      "id": "c09939bb-e9e1-4b1e-9000-0e1fe611c3a4",
+      "agentId": "atlas",
+      "name": "atlas-heartbeat",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "createdAtMs": 1770105898523,
+      "updatedAtMs": 1770200460001,
+      "schedule": {
+        "kind": "cron",
+        "expr": "6,21,36,51 * * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "你是 Atlas，产品经理。执行心跳检查：\n\n## 步骤 1: 检查任务\n查看 tasks/NOTIFICATIONS.md 是否有 @atlas 任务分配。\n\n## 步骤 2: 如果有任务 → 立即执行\n**重要：发现任务后必须执行，不能只汇报！**\n- 读取任务详情\n- 执行需求分析/PRD 更新\n- 输出结果到 docs/ 或指定目录\n- 在 tasks/NOTIFICATIONS.md 汇报完成 @nova\n\n## 步骤 3: 如果无任务\n回复 HEARTBEAT_OK",
+        "model": "proxy-openai/gpt-5.2-codex",
+        "timeoutSeconds": 600,
+        "channel": "last"
+      },
+      "isolation": {
+        "postToMainPrefix": "Cron",
+        "postToMainMode": "summary",
+        "postToMainMaxChars": 8000
+      },
+      "state": {
+        "nextRunAtMs": 1770201360000,
+        "lastRunAtMs": 1770200460001,
+        "lastStatus": "ok",
+        "lastDurationMs": 15289
+      }
+    },
+    {
+      "id": "00e912fc-bc8f-44dd-a105-6a1d9b50acd7",
+      "agentId": "jarvis",
+      "name": "jarvis-heartbeat",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "createdAtMs": 1770105901647,
+      "updatedAtMs": 1770200645670,
+      "schedule": {
+        "kind": "cron",
+        "expr": "9,24,39,54 * * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "你是 Jarvis，硬件工程师。执行心跳检查：\n\n## 步骤 1: 检查任务\n查看 tasks/NOTIFICATIONS.md 是否有 @jarvis 任务分配。\n\n## 步骤 2: 如果有任务 → 立即执行\n**重要：发现任务后必须执行，不能只汇报！**\n- 读取任务详情\n- 执行硬件设计/选型工作\n- 输出结果到 docs/ 或指定目录\n- 在 tasks/NOTIFICATIONS.md 汇报完成 @nova\n\n## 步骤 3: 如果无任务\n回复 HEARTBEAT_OK",
+        "model": "proxy-openai/gpt-5.2-codex",
+        "timeoutSeconds": 600,
+        "channel": "last"
+      },
+      "isolation": {
+        "postToMainPrefix": "Cron",
+        "postToMainMode": "summary",
+        "postToMainMaxChars": 8000
+      },
+      "state": {
+        "nextRunAtMs": 1770201540000,
+        "lastRunAtMs": 1770200645670,
+        "lastStatus": "ok",
+        "lastDurationMs": 10404
+      }
+    },
+    {
+      "id": "22164951-13ab-4195-9b83-3e9fa9780396",
+      "agentId": "friday",
+      "name": "friday-heartbeat",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "createdAtMs": 1770105904790,
+      "updatedAtMs": 1770199920001,
+      "schedule": {
+        "kind": "cron",
+        "expr": "12,27,42,57 * * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "你是 Friday，软件工程师。执行心跳检查：\n\n## 步骤 1: 检查任务\n查看 tasks/NOTIFICATIONS.md 是否有 @friday 任务分配。\n\n## 步骤 2: 如果有任务 → 立即执行\n**重要：发现任务后必须执行，不能只汇报！**\n- 读取任务详情\n- 执行开发工作\n- 完成后 commit 并 push\n- 更新 memory/WORKING.md\n- 在 tasks/NOTIFICATIONS.md 汇报完成 @nova\n\n## 步骤 3: 如果无任务\n回复 HEARTBEAT_OK\n\n注意：心跳不是只检查汇报，而是要实际执行分配的任务！",
+        "model": "proxy-openai/gpt-5.2-codex",
+        "timeoutSeconds": 600,
+        "channel": "last"
+      },
+      "isolation": {
+        "postToMainPrefix": "Cron",
+        "postToMainMode": "summary",
+        "postToMainMaxChars": 8000
+      },
+      "state": {
+        "nextRunAtMs": 1770200820000,
+        "lastRunAtMs": 1770199920001,
+        "lastStatus": "ok",
+        "lastDurationMs": 10859
+      }
+    },
+    {
+      "id": "a747a270-b130-4c9d-929c-ba0c91cf11b4",
+      "agentId": "vision",
+      "name": "vision-heartbeat",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "createdAtMs": 1770105907967,
+      "updatedAtMs": 1770200747252,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 1200000
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "你是 Vision，测试工程师。执行心跳检查：\n\n## 步骤 1: 检查任务\n查看 tasks/NOTIFICATIONS.md 是否有 @vision 任务分配。\n\n## 步骤 2: 如果有任务 → 立即执行\n**重要：发现任务后必须执行，不能只汇报！**\n- 读取任务详情\n- 执行测试工作\n- 输出报告到 docs/ 或指定目录\n- 在 tasks/NOTIFICATIONS.md 汇报完成 @nova\n\n## 步骤 3: 如果无任务\n回复 HEARTBEAT_OK",
+        "model": "proxy-openai/gpt-5.2-codex",
+        "timeoutSeconds": 600,
+        "channel": "last"
+      },
+      "isolation": {
+        "postToMainPrefix": "Cron",
+        "postToMainMode": "summary",
+        "postToMainMaxChars": 8000
+      },
+      "state": {
+        "nextRunAtMs": 1770201964566,
+        "lastRunAtMs": 1770200747252,
+        "lastStatus": "ok",
+        "lastDurationMs": 17311
+      }
+    },
+    {
+      "id": "acef7188-be6c-47e4-8bd2-7fa063563129",
+      "agentId": "nova",
+      "name": "nova-heartbeat",
+      "enabled": false,
+      "deleteAfterRun": false,
+      "createdAtMs": 1770109254097,
+      "updatedAtMs": 1770161550778,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 900000
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "你是 Nova，项目主控。执行心跳检查：\n\n1. **记录心跳** (Mission Control)\n   npx convex run agents:heartbeat '{\"id\": \"j97337btb37x06bkq3c1md51zh80ezf9\"}' --url \"$CONVEX_URL\" --admin-key \"$CONVEX_ADMIN_KEY\"\n\n2. **检查待分配任务**\n   - 查看 tasks/INBOX.md 中的新任务\n   - 或 npx convex run tasks:getInbox\n\n3. **检查通知**\n   - 查看 tasks/NOTIFICATIONS.md 中的 @nova 提及\n   - 或 npx convex run notifications:getUndelivered '{\"agentId\": \"j97337btb37x06bkq3c1md51zh80ezf9\"}'\n\n4. **任务分配决策** (如有新任务)\n   根据 SOUL.md 中的分配逻辑:\n   - 技术调研 → @sage\n   - 需求澄清 → @atlas\n   - 硬件设计 → @jarvis\n   - 软件开发 → @friday\n   - 测试验证 → @vision\n   \n   创建任务并 @mention 对应 Agent。\n\n5. **检查进行中任务** \n   查看 tasks/ACTIVE.md 或 npx convex run tasks:getByStatus '{\"status\": \"in_progress\"}'\n\n6. 如无待办，回复 HEARTBEAT_OK",
+        "model": "proxy-anthropic/claude-opus-4-5-20251101",
+        "timeoutSeconds": 300,
+        "channel": "last"
+      },
+      "isolation": {
+        "postToMainPrefix": "Cron",
+        "postToMainMode": "summary",
+        "postToMainMaxChars": 8000
+      },
+      "state": {
+        "lastRunAtMs": 1770160462623,
+        "lastStatus": "ok",
+        "lastDurationMs": 55591
+      }
+    },
+    {
+      "id": "7e1360c3-4d4e-410b-8da5-b18c9ea0c366",
+      "agentId": "sage",
+      "name": "sage-heartbeat",
+      "enabled": false,
+      "deleteAfterRun": false,
+      "createdAtMs": 1770109257744,
+      "updatedAtMs": 1770161550749,
+      "schedule": {
+        "kind": "cron",
+        "expr": "3,18,33,48 * * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "你是 Sage，调研分析师。执行心跳检查：\n\n1. **记录心跳**\n   npx convex run agents:heartbeat '{\"id\": \"j974hbc77xa25daq6r2wwp1ndn80extj\"}' --url \"$CONVEX_URL\" --admin-key \"$CONVEX_ADMIN_KEY\"\n\n2. **检查通知**\n   查看 tasks/NOTIFICATIONS.md 是否有 @sage 提及\n\n3. **检查分配的任务**\n   查看 tasks/ACTIVE.md 中分配给你的调研任务\n\n4. **执行调研** (如有任务)\n   使用 parallel-search MCP 进行调研，输出到 workspace/research/\n\n5. **完成汇报**\n   任务完成后在 tasks/NOTIFICATIONS.md 中 @nova 汇报\n\n6. 如无待办，回复 HEARTBEAT_OK",
+        "model": "proxy-openai/gpt-5.2-codex",
+        "timeoutSeconds": 300,
+        "channel": "last"
+      },
+      "isolation": {
+        "postToMainPrefix": "Cron",
+        "postToMainMode": "summary",
+        "postToMainMaxChars": 8000
+      },
+      "state": {
+        "lastRunAtMs": 1770160761833,
+        "lastStatus": "ok",
+        "lastDurationMs": 42341
+      }
+    },
+    {
+      "id": "e7145dd8-b995-46cb-9b99-a688492130eb",
+      "agentId": "atlas",
+      "name": "atlas-heartbeat",
+      "enabled": false,
+      "deleteAfterRun": false,
+      "createdAtMs": 1770109261993,
+      "updatedAtMs": 1770161550757,
+      "schedule": {
+        "kind": "cron",
+        "expr": "6,21,36,51 * * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "你是 Atlas，产品经理。执行心跳检查：\n\n1. **记录心跳**\n   npx convex run agents:heartbeat '{\"id\": \"j974c26hvn5q4as90rwr84tmhs80fz2h\"}' --url \"$CONVEX_URL\" --admin-key \"$CONVEX_ADMIN_KEY\"\n\n2. **检查通知**\n   查看 tasks/NOTIFICATIONS.md 是否有 @atlas 提及\n\n3. **检查分配的任务**\n   查看 tasks/ACTIVE.md 中分配给你的需求任务\n\n4. **执行任务** (如有)\n   更新 workspace/specs/ 或 原型prd.md\n\n5. **完成汇报**\n   任务完成后在 tasks/NOTIFICATIONS.md 中 @nova 汇报\n\n6. 如无待办，回复 HEARTBEAT_OK",
+        "model": "proxy-openai/gpt-5.2-codex",
+        "timeoutSeconds": 300,
+        "channel": "last"
+      },
+      "isolation": {
+        "postToMainPrefix": "Cron",
+        "postToMainMode": "summary",
+        "postToMainMaxChars": 8000
+      },
+      "state": {
+        "lastRunAtMs": 1770160974660,
+        "lastStatus": "ok",
+        "lastDurationMs": 41506
+      }
+    },
+    {
+      "id": "da419d15-97a4-4722-8d8f-5b6c2a4e4b6f",
+      "agentId": "jarvis",
+      "name": "jarvis-heartbeat",
+      "enabled": false,
+      "deleteAfterRun": false,
+      "createdAtMs": 1770109265858,
+      "updatedAtMs": 1770161550764,
+      "schedule": {
+        "kind": "cron",
+        "expr": "9,24,39,54 * * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "你是 Jarvis，硬件工程师。执行心跳检查：\n\n1. **记录心跳**\n   npx convex run agents:heartbeat '{\"id\": \"j97fe7kxr5pewaqabj9v8f17qx80ff9r\"}' --url \"$CONVEX_URL\" --admin-key \"$CONVEX_ADMIN_KEY\"\n\n2. **检查通知**\n   查看 tasks/NOTIFICATIONS.md 是否有 @jarvis 提及\n\n3. **检查分配的任务**\n   查看 tasks/ACTIVE.md 中分配给你的硬件任务\n\n4. **执行任务** (如有)\n   硬件设计输出到 workspace/specs/\n   需要软件配合时 @friday\n\n5. **完成汇报**\n   任务完成后在 tasks/NOTIFICATIONS.md 中 @nova 汇报\n\n6. 如无待办，回复 HEARTBEAT_OK",
+        "model": "proxy-openai/gpt-5.2-codex",
+        "timeoutSeconds": 300,
+        "channel": "last"
+      },
+      "isolation": {
+        "postToMainPrefix": "Cron",
+        "postToMainMode": "summary",
+        "postToMainMaxChars": 8000
+      },
+      "state": {
+        "lastRunAtMs": 1770161077616,
+        "lastStatus": "ok",
+        "lastDurationMs": 62949
+      }
+    },
+    {
+      "id": "9b0be619-32ae-499a-9cd3-0a7ac82322e4",
+      "agentId": "friday",
+      "name": "friday-heartbeat",
+      "enabled": false,
+      "deleteAfterRun": false,
+      "createdAtMs": 1770109269130,
+      "updatedAtMs": 1770161539640,
+      "schedule": {
+        "kind": "cron",
+        "expr": "12,27,42,57 * * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "你是 Friday，软件工程师。执行心跳检查：\n\n1. **记录心跳**\n   npx convex run agents:heartbeat '{\"id\": \"j97dmaw0vcae01r05srky34cr180fj70\"}' --url \"$CONVEX_URL\" --admin-key \"$CONVEX_ADMIN_KEY\"\n\n2. **检查通知**\n   查看 tasks/NOTIFICATIONS.md 是否有 @friday 提及\n\n3. **检查分配的任务**\n   查看 tasks/ACTIVE.md 中分配给你的开发任务\n\n4. **执行任务** (如有)\n   可使用 npx skills find 搜索相关技能\n   需要硬件接口时 @jarvis\n\n5. **完成汇报**\n   任务完成后在 tasks/NOTIFICATIONS.md 中 @nova 汇报\n\n6. 如无待办，回复 HEARTBEAT_OK",
+        "model": "proxy-openai/gpt-5.2-codex",
+        "timeoutSeconds": 300,
+        "channel": "last"
+      },
+      "isolation": {
+        "postToMainPrefix": "Cron",
+        "postToMainMode": "summary",
+        "postToMainMaxChars": 8000
+      },
+      "state": {
+        "lastRunAtMs": 1770161249935,
+        "lastStatus": "ok",
+        "lastDurationMs": 263979
+      }
+    },
+    {
+      "id": "83039ea8-a6b1-44c5-88a4-750e25bfd59f",
+      "agentId": "vision",
+      "name": "vision-heartbeat",
+      "enabled": false,
+      "deleteAfterRun": false,
+      "createdAtMs": 1770109272417,
+      "updatedAtMs": 1770161550771,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 1200000
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "你是 Vision，测试工程师。执行心跳检查：\n\n1. **记录心跳**\n   npx convex run agents:heartbeat '{\"id\": \"j977yjwcy37sj9t6ac1xt9kk6180ekky\"}' --url \"$CONVEX_URL\" --admin-key \"$CONVEX_ADMIN_KEY\"\n\n2. **检查通知**\n   查看 tasks/NOTIFICATIONS.md 是否有 @vision 提及\n\n3. **检查分配的任务**\n   查看 tasks/ACTIVE.md 中分配给你的测试任务\n\n4. **执行测试** (如有)\n   测试报告输出到 workspace/reports/\n   发现问题时 @friday 或 @jarvis\n\n5. **完成汇报**\n   任务完成后在 tasks/NOTIFICATIONS.md 中 @nova 汇报\n\n6. 如无待办，回复 HEARTBEAT_OK",
+        "model": "proxy-openai/gpt-5.2-codex",
+        "timeoutSeconds": 300,
+        "channel": "last"
+      },
+      "isolation": {
+        "postToMainPrefix": "Cron",
+        "postToMainMode": "summary",
+        "postToMainMaxChars": 8000
+      },
+      "state": {
+        "lastRunAtMs": 1770160604026,
+        "lastStatus": "ok",
+        "lastDurationMs": 135698
+      }
+    },
+    {
+      "id": "8ec24ca1-f578-4cfb-8f9c-83dcc9f2324c",
+      "agentId": "nova",
+      "name": "MinIO 自动同步",
+      "enabled": true,
+      "createdAtMs": 1770124945861,
+      "updatedAtMs": 1770199713936,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 1800000
+      },
+      "sessionTarget": "main",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "执行 MinIO 同步：运行 /root/multiagent/team/scripts/sync-minio.sh 并简要汇报结果"
+      },
+      "state": {
+        "nextRunAtMs": 1770201513941,
+        "lastRunAtMs": 1770199713936,
+        "lastStatus": "ok",
+        "lastDurationMs": 5
+      }
+    },
+    {
+      "id": "f34d44fe-fd9a-4b77-8619-9d2c7376c51c",
+      "agentId": "nova",
+      "name": "Agent 同步到 Convex",
+      "enabled": true,
+      "createdAtMs": 1770126925025,
+      "updatedAtMs": 1770197826498,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 3600000
+      },
+      "sessionTarget": "main",
+      "wakeMode": "next-heartbeat",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "执行 Agent 同步：运行 /root/multiagent/team/scripts/sync-agents-to-convex.sh"
+      },
+      "state": {
+        "nextRunAtMs": 1770201513935,
+        "lastRunAtMs": 1770197913935,
+        "lastStatus": "ok",
+        "lastDurationMs": 0
+      }
+    }
+  ]
+}

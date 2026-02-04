@@ -1,0 +1,12 @@
+{
+  "name": "mission-control-convex",
+  "version": "1.0.0",
+  "description": "Mission Control Convex functions for robot team",
+  "scripts": {
+    "dev": "convex dev",
+    "deploy": "convex deploy"
+  },
+  "dependencies": {
+    "convex": "^1.31.0"
+  }
+}
