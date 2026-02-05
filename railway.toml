@@ -3,8 +3,7 @@ builder = "dockerfile"
 dockerfilePath = "Dockerfile"
 
 [deploy]
-healthcheckPath = "/health"
-healthcheckTimeout = 300
+# OpenClaw doesn't have /health endpoint, disable HTTP healthcheck
 restartPolicyType = "always"
 restartPolicyMaxRetries = 3
 

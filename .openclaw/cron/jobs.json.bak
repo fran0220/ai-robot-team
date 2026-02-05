@@ -8,7 +8,7 @@
       "enabled": true,
       "deleteAfterRun": false,
       "createdAtMs": 1770105892040,
-      "updatedAtMs": 1770251829415,
+      "updatedAtMs": 1770252730485,
       "schedule": {
         "kind": "every",
         "everyMs": 900000
@@ -28,10 +28,10 @@
         "postToMainMaxChars": 8000
       },
       "state": {
-        "nextRunAtMs": 1770252730150,
-        "lastRunAtMs": 1770251829415,
+        "nextRunAtMs": 1770253631076,
+        "lastRunAtMs": 1770252730485,
         "lastStatus": "ok",
-        "lastDurationMs": 732
+        "lastDurationMs": 588
       }
     },
     {
@@ -74,7 +74,7 @@
       "enabled": true,
       "deleteAfterRun": false,
       "createdAtMs": 1770105898523,
-      "updatedAtMs": 1770251760003,
+      "updatedAtMs": 1770252660003,
       "schedule": {
         "kind": "cron",
         "expr": "6,21,36,51 * * * *"
@@ -94,10 +94,10 @@
         "postToMainMaxChars": 8000
       },
       "state": {
-        "nextRunAtMs": 1770252660000,
-        "lastRunAtMs": 1770251760003,
+        "nextRunAtMs": 1770253560000,
+        "lastRunAtMs": 1770252660003,
         "lastStatus": "ok",
-        "lastDurationMs": 782
+        "lastDurationMs": 795
       }
     },
     {
@@ -107,7 +107,7 @@
       "enabled": true,
       "deleteAfterRun": false,
       "createdAtMs": 1770105901647,
-      "updatedAtMs": 1770251940001,
+      "updatedAtMs": 1770252840001,
       "schedule": {
         "kind": "cron",
         "expr": "9,24,39,54 * * * *"
@@ -127,10 +127,10 @@
         "postToMainMaxChars": 8000
       },
       "state": {
-        "nextRunAtMs": 1770252840000,
-        "lastRunAtMs": 1770251940001,
+        "nextRunAtMs": 1770253740000,
+        "lastRunAtMs": 1770252840001,
         "lastStatus": "ok",
-        "lastDurationMs": 854
+        "lastDurationMs": 822
       }
     },
     {
@@ -140,7 +140,7 @@
       "enabled": true,
       "deleteAfterRun": false,
       "createdAtMs": 1770105904790,
-      "updatedAtMs": 1770252120002,
+      "updatedAtMs": 1770253020001,
       "schedule": {
         "kind": "cron",
         "expr": "12,27,42,57 * * * *"
@@ -160,10 +160,10 @@
         "postToMainMaxChars": 8000
       },
       "state": {
-        "nextRunAtMs": 1770253020000,
-        "lastRunAtMs": 1770252120002,
+        "nextRunAtMs": 1770253920000,
+        "lastRunAtMs": 1770253020001,
         "lastStatus": "ok",
-        "lastDurationMs": 749
+        "lastDurationMs": 738
       }
     },
     {
@@ -173,7 +173,7 @@
       "enabled": true,
       "deleteAfterRun": false,
       "createdAtMs": 1770105907967,
-      "updatedAtMs": 1770251528928,
+      "updatedAtMs": 1770252729704,
       "schedule": {
         "kind": "every",
         "everyMs": 1200000
@@ -193,8 +193,8 @@
         "postToMainMaxChars": 8000
       },
       "state": {
-        "nextRunAtMs": 1770252729697,
-        "lastRunAtMs": 1770251528928,
+        "nextRunAtMs": 1770253930472,
+        "lastRunAtMs": 1770252729704,
         "lastStatus": "ok",
         "lastDurationMs": 764
       }
@@ -397,7 +397,7 @@
       "name": "MinIO 自动同步",
       "enabled": true,
       "createdAtMs": 1770124945861,
-      "updatedAtMs": 1770250924516,
+      "updatedAtMs": 1770252724530,
       "schedule": {
         "kind": "every",
         "everyMs": 1800000
@@ -409,10 +409,10 @@
         "text": "执行 MinIO 同步：运行 /root/multiagent/team/scripts/sync-minio.sh 并简要汇报结果"
       },
       "state": {
-        "nextRunAtMs": 1770252724526,
-        "lastRunAtMs": 1770250924516,
+        "nextRunAtMs": 1770254524530,
+        "lastRunAtMs": 1770252724530,
         "lastStatus": "ok",
-        "lastDurationMs": 10
+        "lastDurationMs": 0
       }
     },
     {
@@ -421,7 +421,7 @@
       "name": "Agent 同步到 Convex",
       "enabled": true,
       "createdAtMs": 1770126925025,
-      "updatedAtMs": 1770249124502,
+      "updatedAtMs": 1770252724514,
       "schedule": {
         "kind": "every",
         "everyMs": 3600000
@@ -433,10 +433,10 @@
         "text": "执行 Agent 同步：运行 /root/multiagent/team/scripts/sync-agents-to-convex.sh"
       },
       "state": {
-        "nextRunAtMs": 1770252724512,
-        "lastRunAtMs": 1770249124502,
+        "nextRunAtMs": 1770256324528,
+        "lastRunAtMs": 1770252724514,
         "lastStatus": "ok",
-        "lastDurationMs": 10
+        "lastDurationMs": 14
       }
     }
   ]
