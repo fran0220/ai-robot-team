@@ -37,5 +37,5 @@ teams/robotics/shared/cad/
 teams/robotics/agents/*/workspace/docs.bak/
 platform/agents/*/workspace/
 
-# Large workspace files
-workspace/
+# Large workspace files (top-level only)
+/workspace/
