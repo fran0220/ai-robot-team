@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   X,
   Download,
@@ -155,6 +155,30 @@ export function AssetPreview({ asset, onClose, workspaceId }: AssetPreviewProps)
       setPreviewLoading(false);
     }
   };
+
+  // Auto-load preview when asset changes
+  useEffect(() => {
+    if (!asset) return;
+    
+    // Reset states when asset changes
+    setPreviewUrl(null);
+    setKkPreviewUrl(null);
+    setPreviewError(null);
+    setFullscreenOpen(false);
+    
+    const isNative = asset.type === 'visual' && 
+                     asset.mimeType?.startsWith('image/') === true &&
+                     !asset.mimeType?.includes('tiff');
+    const canKk = supportsKkPreview(asset);
+    
+    // Auto-load appropriate preview
+    if (isNative) {
+      loadPreview();
+    } else if (canKk) {
+      loadKkPreview();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [asset?.id, workspaceId]);
 
   if (!asset) {
     return null;

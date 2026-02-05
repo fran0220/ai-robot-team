@@ -29,12 +29,11 @@ Thumbs.db
 *.tmp
 *.swp
 
-# Agent workspace runtime data
+# Agent workspace data (runtime only, not needed for deployment)
+teams/robotics/agents/*/workspace/
 teams/robotics/shared/designs/
 teams/robotics/shared/cad/
-
-# Platform agents (not used in this deployment)
 platform/agents/*/workspace/
 
-# Large workspace files (top-level only)
-/workspace/
+# Large workspace files
+workspace/

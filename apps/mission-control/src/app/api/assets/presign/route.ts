@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getPresignedUrl, isMinioConfigured, validatePathBelongsToWorkspace } from '@/lib/minio';
+import { getPublicPresignedUrl, isMinioConfigured, validatePathBelongsToWorkspace } from '@/lib/minio';
 
 const PRESIGN_EXPIRY_SECONDS = 3600;
 
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const url = await getPresignedUrl(path, PRESIGN_EXPIRY_SECONDS);
+    const url = await getPublicPresignedUrl(path, PRESIGN_EXPIRY_SECONDS);
     return NextResponse.json({
       url,
       expiresIn: PRESIGN_EXPIRY_SECONDS,

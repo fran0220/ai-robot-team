@@ -267,7 +267,7 @@
   },
   "channels": {
     "telegram": {
-      "enabled": false,
+      "enabled": true,
       "dmPolicy": "allowlist",
       "allowFrom": ["7199492253"],
       "groupPolicy": "allowlist",

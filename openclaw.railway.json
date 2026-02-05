@@ -162,7 +162,10 @@
       },
       {
         "id": "robotics.nova",
-        "workspace": "/data/workspace/robotics/nova",
+        "default": true,
+        "name": "Nova",
+        "workspace": "/app/teams/robotics/agents/nova/workspace",
+        "agentDir": "/data/.openclaw/agents/robotics.nova/agent",
         "model": {
           "primary": "claude-proxy/claude-opus-4-5-20251101",
           "fallbacks": [
@@ -173,7 +176,7 @@
       },
       {
         "id": "robotics.sage",
-        "workspace": "/data/workspace/robotics/sage",
+        "workspace": "/app/teams/robotics/agents/sage/workspace",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -184,7 +187,7 @@
       },
       {
         "id": "robotics.atlas",
-        "workspace": "/data/workspace/robotics/atlas",
+        "workspace": "/app/teams/robotics/agents/atlas/workspace",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -195,7 +198,7 @@
       },
       {
         "id": "robotics.jarvis",
-        "workspace": "/data/workspace/robotics/jarvis",
+        "workspace": "/app/teams/robotics/agents/jarvis/workspace",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -206,7 +209,7 @@
       },
       {
         "id": "robotics.friday",
-        "workspace": "/data/workspace/robotics/friday",
+        "workspace": "/app/teams/robotics/agents/friday/workspace",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -217,7 +220,7 @@
       },
       {
         "id": "robotics.vision",
-        "workspace": "/data/workspace/robotics/vision",
+        "workspace": "/app/teams/robotics/agents/vision/workspace",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -228,7 +231,7 @@
       },
       {
         "id": "robotics.idra",
-        "workspace": "/data/workspace/robotics/idra",
+        "workspace": "/app/teams/robotics/agents/idra/workspace",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -239,7 +242,7 @@
       },
       {
         "id": "robotics.mech",
-        "workspace": "/data/workspace/robotics/mech",
+        "workspace": "/app/teams/robotics/agents/mech/workspace",
         "model": {
           "primary": "gpt-proxy/gpt-5.2-codex",
           "fallbacks": [
@@ -250,7 +253,7 @@
       },
       {
         "id": "robotics.xiaomao",
-        "workspace": "/data/workspace/robotics/xiaomao",
+        "workspace": "/app/teams/robotics/agents/xiaomao/workspace",
         "model": {
           "primary": "gemini-proxy/gemini-3-pro-preview",
           "fallbacks": [
@@ -274,6 +277,9 @@
       "streamMode": "partial"
     }
   },
+  "bindings": [
+    { "agentId": "robotics.nova", "match": { "channel": "telegram" } }
+  ],
   "gateway": {
     "mode": "local"
   },

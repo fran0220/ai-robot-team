@@ -55,10 +55,41 @@
           "operator.pairing"
         ],
         "createdAtMs": 1770244995778,
-        "lastUsedAtMs": 1770245824700
+        "lastUsedAtMs": 1770248422716
       }
     },
     "createdAtMs": 1770244995778,
     "approvedAtMs": 1770244995778
+  },
+  "82c3009adf20943b3051558a3eebbd79b301886c794330f53fc846424e84b68d": {
+    "deviceId": "82c3009adf20943b3051558a3eebbd79b301886c794330f53fc846424e84b68d",
+    "publicKey": "SpO6FIVPV6DNCWD8LPIVpdhyTn6u1r4Bm-kqlfpE3Qg",
+    "platform": "MacIntel",
+    "clientId": "openclaw-control-ui",
+    "clientMode": "webchat",
+    "role": "operator",
+    "roles": [
+      "operator"
+    ],
+    "scopes": [
+      "operator.admin",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "tokens": {
+      "operator": {
+        "token": "e2182daa67214bbeb2f71511cf6accd7",
+        "role": "operator",
+        "scopes": [
+          "operator.admin",
+          "operator.approvals",
+          "operator.pairing"
+        ],
+        "createdAtMs": 1770248020899,
+        "lastUsedAtMs": 1770248034584
+      }
+    },
+    "createdAtMs": 1770248020899,
+    "approvedAtMs": 1770248020899
   }
 }

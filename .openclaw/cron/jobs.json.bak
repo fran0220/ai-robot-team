@@ -8,7 +8,7 @@
       "enabled": true,
       "deleteAfterRun": false,
       "createdAtMs": 1770105892040,
-      "updatedAtMs": 1770200636449,
+      "updatedAtMs": 1770251829415,
       "schedule": {
         "kind": "every",
         "everyMs": 900000
@@ -28,10 +28,10 @@
         "postToMainMaxChars": 8000
       },
       "state": {
-        "nextRunAtMs": 1770246424500,
-        "lastRunAtMs": 1770200636450,
+        "nextRunAtMs": 1770252730150,
+        "lastRunAtMs": 1770251829415,
         "lastStatus": "ok",
-        "lastDurationMs": 9216
+        "lastDurationMs": 732
       }
     },
     {
@@ -41,7 +41,7 @@
       "enabled": true,
       "deleteAfterRun": false,
       "createdAtMs": 1770105895301,
-      "updatedAtMs": 1770246180001,
+      "updatedAtMs": 1770252480004,
       "schedule": {
         "kind": "cron",
         "expr": "3,18,33,48 * * * *"
@@ -61,10 +61,10 @@
         "postToMainMaxChars": 8000
       },
       "state": {
-        "nextRunAtMs": 1770247080000,
-        "lastRunAtMs": 1770246180001,
+        "nextRunAtMs": 1770253380000,
+        "lastRunAtMs": 1770252480004,
         "lastStatus": "ok",
-        "lastDurationMs": 791
+        "lastDurationMs": 1209
       }
     },
     {
@@ -74,7 +74,7 @@
       "enabled": true,
       "deleteAfterRun": false,
       "createdAtMs": 1770105898523,
-      "updatedAtMs": 1770245460006,
+      "updatedAtMs": 1770251760003,
       "schedule": {
         "kind": "cron",
         "expr": "6,21,36,51 * * * *"
@@ -94,11 +94,10 @@
         "postToMainMaxChars": 8000
       },
       "state": {
-        "nextRunAtMs": 1770246360000,
-        "lastRunAtMs": 1770245460006,
-        "lastStatus": "error",
-        "lastDurationMs": 381,
-        "lastError": "Error: All models failed (2): proxy-openai/gpt-5.2-codex: No API key found for provider \"proxy-openai\". Auth store: /Users/fan/ai-robot-team/.openclaw/agents/main/agent/auth-profiles.json (agentDir: /Users/fan/ai-robot-team/.openclaw/agents/main/agent). Configure auth for this agent (openclaw agents add <id>) or copy auth-profiles.json from the main agentDir. (auth) | anthropic/claude-opus-4-5: No API key found for provider \"anthropic\". Auth store: /Users/fan/ai-robot-team/.openclaw/agents/main/agent/auth-profiles.json (agentDir: /Users/fan/ai-robot-team/.openclaw/agents/main/agent). Configure auth for this agent (openclaw agents add <id>) or copy auth-profiles.json from the main agentDir. (auth)"
+        "nextRunAtMs": 1770252660000,
+        "lastRunAtMs": 1770251760003,
+        "lastStatus": "ok",
+        "lastDurationMs": 782
       }
     },
     {
@@ -108,7 +107,7 @@
       "enabled": true,
       "deleteAfterRun": false,
       "createdAtMs": 1770105901647,
-      "updatedAtMs": 1770245640005,
+      "updatedAtMs": 1770251940001,
       "schedule": {
         "kind": "cron",
         "expr": "9,24,39,54 * * * *"
@@ -128,10 +127,10 @@
         "postToMainMaxChars": 8000
       },
       "state": {
-        "nextRunAtMs": 1770246540000,
-        "lastRunAtMs": 1770245640005,
+        "nextRunAtMs": 1770252840000,
+        "lastRunAtMs": 1770251940001,
         "lastStatus": "ok",
-        "lastDurationMs": 7521
+        "lastDurationMs": 854
       }
     },
     {
@@ -141,7 +140,7 @@
       "enabled": true,
       "deleteAfterRun": false,
       "createdAtMs": 1770105904790,
-      "updatedAtMs": 1770245820003,
+      "updatedAtMs": 1770252120002,
       "schedule": {
         "kind": "cron",
         "expr": "12,27,42,57 * * * *"
@@ -161,10 +160,10 @@
         "postToMainMaxChars": 8000
       },
       "state": {
-        "nextRunAtMs": 1770246720000,
-        "lastRunAtMs": 1770245820003,
+        "nextRunAtMs": 1770253020000,
+        "lastRunAtMs": 1770252120002,
         "lastStatus": "ok",
-        "lastDurationMs": 764
+        "lastDurationMs": 749
       }
     },
     {
@@ -174,7 +173,7 @@
       "enabled": true,
       "deleteAfterRun": false,
       "createdAtMs": 1770105907967,
-      "updatedAtMs": 1770200747252,
+      "updatedAtMs": 1770251528928,
       "schedule": {
         "kind": "every",
         "everyMs": 1200000
@@ -194,10 +193,10 @@
         "postToMainMaxChars": 8000
       },
       "state": {
-        "nextRunAtMs": 1770246724500,
-        "lastRunAtMs": 1770200747252,
+        "nextRunAtMs": 1770252729697,
+        "lastRunAtMs": 1770251528928,
         "lastStatus": "ok",
-        "lastDurationMs": 17311
+        "lastDurationMs": 764
       }
     },
     {
@@ -398,7 +397,7 @@
       "name": "MinIO 自动同步",
       "enabled": true,
       "createdAtMs": 1770124945861,
-      "updatedAtMs": 1770199713936,
+      "updatedAtMs": 1770250924516,
       "schedule": {
         "kind": "every",
         "everyMs": 1800000
@@ -410,10 +409,10 @@
         "text": "执行 MinIO 同步：运行 /root/multiagent/team/scripts/sync-minio.sh 并简要汇报结果"
       },
       "state": {
-        "nextRunAtMs": 1770247324500,
-        "lastRunAtMs": 1770199713936,
+        "nextRunAtMs": 1770252724526,
+        "lastRunAtMs": 1770250924516,
         "lastStatus": "ok",
-        "lastDurationMs": 5
+        "lastDurationMs": 10
       }
     },
     {
@@ -422,7 +421,7 @@
       "name": "Agent 同步到 Convex",
       "enabled": true,
       "createdAtMs": 1770126925025,
-      "updatedAtMs": 1770197826498,
+      "updatedAtMs": 1770249124502,
       "schedule": {
         "kind": "every",
         "everyMs": 3600000
@@ -434,10 +433,10 @@
         "text": "执行 Agent 同步：运行 /root/multiagent/team/scripts/sync-agents-to-convex.sh"
       },
       "state": {
-        "nextRunAtMs": 1770249124500,
-        "lastRunAtMs": 1770197913935,
+        "nextRunAtMs": 1770252724512,
+        "lastRunAtMs": 1770249124502,
         "lastStatus": "ok",
-        "lastDurationMs": 0
+        "lastDurationMs": 10
       }
     }
   ]

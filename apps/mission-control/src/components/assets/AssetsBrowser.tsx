@@ -126,6 +126,7 @@ export function AssetsBrowser() {
         selectedAsset={selectedAsset}
         onSelectAsset={setSelectedAsset}
         loading={loading}
+        workspaceId={workspace.id}
       />
 
       {selectedAsset && (
