@@ -28,3 +28,14 @@ Thumbs.db
 # Temp
 *.tmp
 *.swp
+
+# Agent workspace runtime data (but keep personality files)
+teams/robotics/shared/designs/
+teams/robotics/shared/cad/
+
+# Exclude runtime-generated files, keep personality files
+teams/robotics/agents/*/workspace/docs.bak/
+platform/agents/*/workspace/
+
+# Large workspace files
+workspace/
