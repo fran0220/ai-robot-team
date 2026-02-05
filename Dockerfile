@@ -1,7 +1,10 @@
 # OpenClaw Gateway - AI Robot Team
 # Railway deployment
 
-FROM node:20-slim
+FROM node:22-slim
+
+# Install dependencies (git required for openclaw install)
+RUN apt-get update && apt-get install -y git curl && rm -rf /var/lib/apt/lists/*
 
 # Install OpenClaw CLI
 RUN npm install -g openclaw@latest
@@ -13,7 +16,6 @@ WORKDIR /app
 COPY openclaw.railway.json ./openclaw.json
 COPY platform/ ./platform/
 COPY teams/ ./teams/
-COPY workspace/ ./workspace/
 COPY docs/ ./docs/
 
 # Create state directory (will be mounted as volume)
@@ -41,6 +43,11 @@ echo "🦞 Starting OpenClaw Gateway..."
 echo "  Config: $OPENCLAW_CONFIG_PATH"
 echo "  State:  $OPENCLAW_STATE_DIR"
 echo "  Port:   ${PORT:-8080}"
+
+# Debug: check if Nova workspace files exist
+echo "📁 Checking Nova workspace files..."
+ls -la /app/teams/robotics/agents/nova/workspace/ 2>&1 || echo "❌ Nova workspace not found!"
+ls -la /app/teams/ 2>&1 | head -5 || echo "❌ /app/teams/ not found!"
 
 # Start gateway in foreground
 exec openclaw gateway --port ${PORT:-8080}
