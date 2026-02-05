@@ -33,6 +33,11 @@ Thumbs.db
 teams/robotics/shared/designs/
 teams/robotics/shared/cad/
 
+# Large binary/design files in agent workspaces
+teams/robotics/agents/*/workspace/designs/
+teams/robotics/agents/*/workspace/cad/
+teams/robotics/agents/*/workspace/docs.bak/
+
 # Platform agents (not used)
 platform/agents/*/workspace/
 
