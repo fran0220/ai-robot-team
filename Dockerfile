@@ -62,8 +62,8 @@ ls -la /app/teams/robotics/agents/nova/ 2>&1 || echo "❌ not found"
 echo "--- /app/teams/robotics/agents/nova/workspace ---"
 ls -la /app/teams/robotics/agents/nova/workspace/ 2>&1 || echo "❌ not found"
 
-# Start gateway in foreground
-exec openclaw gateway --port ${PORT:-8080}
+# Start gateway in foreground (bind to 0.0.0.0 for Railway access)
+exec openclaw gateway --port ${PORT:-8080} --bind lan
 EOF
 
 RUN chmod +x /app/entrypoint.sh
