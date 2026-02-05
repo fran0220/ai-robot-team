@@ -15,8 +15,23 @@ WORKDIR /app
 # Copy project files (use Railway-specific config)
 COPY openclaw.railway.json ./openclaw.json
 COPY platform/ ./platform/
-COPY teams/ ./teams/
 COPY docs/ ./docs/
+
+# Copy teams directory structure
+COPY teams/robotics/configs/ ./teams/robotics/configs/
+COPY teams/robotics/docs/ ./teams/robotics/docs/
+COPY teams/robotics/shared/ ./teams/robotics/shared/
+
+# Copy agent workspaces explicitly (ensure personality files are included)
+COPY teams/robotics/agents/nova/workspace/ ./teams/robotics/agents/nova/workspace/
+COPY teams/robotics/agents/sage/workspace/ ./teams/robotics/agents/sage/workspace/
+COPY teams/robotics/agents/atlas/workspace/ ./teams/robotics/agents/atlas/workspace/
+COPY teams/robotics/agents/jarvis/workspace/ ./teams/robotics/agents/jarvis/workspace/
+COPY teams/robotics/agents/friday/workspace/ ./teams/robotics/agents/friday/workspace/
+COPY teams/robotics/agents/vision/workspace/ ./teams/robotics/agents/vision/workspace/
+COPY teams/robotics/agents/idra/workspace/ ./teams/robotics/agents/idra/workspace/
+COPY teams/robotics/agents/mech/workspace/ ./teams/robotics/agents/mech/workspace/
+COPY teams/robotics/agents/xiaomao/workspace/ ./teams/robotics/agents/xiaomao/workspace/
 
 # Create state directory (will be mounted as volume)
 RUN mkdir -p /data/.openclaw /data/workspace
