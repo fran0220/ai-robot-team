@@ -46,8 +46,14 @@ echo "  Port:   ${PORT:-8080}"
 
 # Debug: check if Nova workspace files exist
 echo "📁 Checking Nova workspace files..."
-ls -la /app/teams/robotics/agents/nova/workspace/ 2>&1 || echo "❌ Nova workspace not found!"
-ls -la /app/teams/ 2>&1 | head -5 || echo "❌ /app/teams/ not found!"
+echo "--- /app/teams/robotics ---"
+ls -la /app/teams/robotics/ 2>&1 || echo "❌ not found"
+echo "--- /app/teams/robotics/agents ---"
+ls -la /app/teams/robotics/agents/ 2>&1 || echo "❌ not found"
+echo "--- /app/teams/robotics/agents/nova ---"
+ls -la /app/teams/robotics/agents/nova/ 2>&1 || echo "❌ not found"
+echo "--- /app/teams/robotics/agents/nova/workspace ---"
+ls -la /app/teams/robotics/agents/nova/workspace/ 2>&1 || echo "❌ not found"
 
 # Start gateway in foreground
 exec openclaw gateway --port ${PORT:-8080}
